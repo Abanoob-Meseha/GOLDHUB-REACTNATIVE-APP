@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View , Image, TouchableOpacity } from 'react-native';
+import { Link } from 'expo-router';
 import COLORS from '../constants/colors';
 
 export default function App() {
@@ -7,16 +8,16 @@ export default function App() {
     <View style={styles.container}>
       <Image style={{width:'80%', height:'30%'}} source={require('../assets/images/LOGO.png')}></Image>
       <Text style={styles.welcomeText}> أهلا بك بـــعـــالـــم الــــذهـــــــب </Text>
-      <TouchableOpacity style={styles.primaryBTN}>
-        <Text style={styles.btnP_Text}> ابـــدأ الان </Text>
-      </TouchableOpacity>
+      <Link href="/register" asChild>
+        <TouchableOpacity style={styles.primaryBTN}>
+          <Text style={styles.btnP_Text}> ابـــدأ الان </Text>
+        </TouchableOpacity>
+      </Link>
       <TouchableOpacity style={styles.seconderyBTN}>
         <Text style={styles.btnS_Text}> لدي حساب بالفعل </Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
-      
     </View>
-    
   );
 }
 
