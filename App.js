@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
     color:COLORS.Gold,
     fontSize:40,
     fontWeight:'bold',
-    textAlign:'center'
+    textAlign:'center',
+    textShadowColor:'black'
   },
   seconderyBTN:{
     width:"70%",
@@ -65,5 +66,7 @@ const styles = StyleSheet.create({
     fontSize:30,
     fontWeight:'bold',
     textAlign:'center',
+    textShadowColor:'black'
+
   }
 });
