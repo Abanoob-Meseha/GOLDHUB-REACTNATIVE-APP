@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View , Image, TouchableOpacity } from 'react-native';
-import COLORS from './src/constants/colors';
+import COLORS from '../constants/colors';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Image style={{width:'80%', height:'30%'}} source={require('./assets/images/LOGO.png')}></Image>
+      <Image style={{width:'80%', height:'30%'}} source={require('../assets/images/LOGO.png')}></Image>
       <Text style={styles.welcomeText}> أهلا بك بـــعـــالـــم الــــذهـــــــب </Text>
       <TouchableOpacity style={styles.primaryBTN}>
         <Text style={styles.btnP_Text}> ابـــدأ الان </Text>
@@ -14,7 +14,9 @@ export default function App() {
         <Text style={styles.btnS_Text}> لدي حساب بالفعل </Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
+      
     </View>
+    
   );
 }
 
