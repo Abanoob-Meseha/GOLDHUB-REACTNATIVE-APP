@@ -4,6 +4,7 @@ export const styles = {
         justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
+        marginVertical: 10
         // backgroundColor: 'blue',
         // paddingHorizontal: 20,
     },
@@ -13,7 +14,7 @@ export const styles = {
         fontWeight: "bold"
     },
     box: {
-        width: "100%",
+        width: "90%",
         minHeight: 100,
         backgroundColor: "#fff",
         marginVertical: 5,

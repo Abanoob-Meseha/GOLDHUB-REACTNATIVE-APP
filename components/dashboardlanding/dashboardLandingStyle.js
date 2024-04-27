@@ -5,7 +5,7 @@ export const styles = {
         alignItems: "center",
         width: "100%",
         minHeight: 80,
-        backgroundColor: '#D9D9D9',
+        backgroundColor: 'transparent',
         paddingHorizontal: 20, 
         paddingVertical: 20, 
       },

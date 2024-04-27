@@ -4,19 +4,17 @@ export const styles = {
         justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
-        // backgroundColor: 'blue',
-        // paddingHorizontal: 20,
     },
     title: {
         color: "#fff",
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: "bold"
     },
     box: {
         width: "90%",
-        minHeight: 100,
+        minHeight: 80,
         backgroundColor: "#E6AF2E",
-        marginVertical: 5,
+        marginVertical: 2,
         borderColor: "#fff",
         borderWidth: 3,
         borderRadius: 10,
@@ -56,7 +54,7 @@ export const styles = {
         paddingHorizontal: 10,
     },
     inputTitle:{
-        fontSize:25,
+        fontSize:20,
         fontWeight:"bold",
         color: "#000000"
     },

@@ -83,6 +83,14 @@ export default function Transactions() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.transactionsTitle}>
+        <Text style={styles.txt}>
+          عرض الكل
+        </Text>
+        <Text style={styles.showMore}>
+        موقف شراء  / بيع
+        </Text>
+      </View>
       <FlatList
         data={data}
         renderItem={renderItem}

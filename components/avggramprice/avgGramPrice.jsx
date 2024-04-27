@@ -1,7 +1,6 @@
 import React from "react";
-import { Text, View, StyleSheet, TextInput } from 'react-native';
-import { styles } from "./avgGramPrice";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import { Text, View, TextInput } from 'react-native';
+import { styles } from "./avgGramPriceStyle";
 export default function avgGramPrice() {
   let storeName = "GoldHub";
   

@@ -7,13 +7,13 @@ export default function dashboardTwo() {
     <View>
        <View style={styles.container}>
        <View style ={styles.card}>
-         <Image source={require('../../../assets/images/notification.png')} style={styles.image} />
+         <Image source={require('../../assets/images/notification.png')} style={styles.image} />
           <Text style={styles.cardTitle}>
             التنبيهات
           </Text>
         </View>
         <View style ={styles.card}>
-         <Image source={require('../../../assets/images/debits.png')} style={styles.image} />
+         <Image source={require('../../assets/images/debits.png')} style={styles.image} />
          <Text style={styles.cardTitle}>
             ديون العملاء
           </Text>
@@ -21,13 +21,13 @@ export default function dashboardTwo() {
        </View>
        <View style={styles.container}>
        <View style ={styles.card}>
-         <Image source={require('../../../assets/images/timemanag.png')} style={styles.image} />
+         <Image source={require('../../assets/images/timemanag.png')} style={styles.image} />
          <Text style={styles.cardTitle}>
             مواعيد استحقاق العملاء
           </Text>
         </View>
         <View style ={styles.card}>
-         <Image source={require('../../../assets/images/todo.png')} style={styles.image} />
+         <Image source={require('../../assets/images/todo.png')} style={styles.image} />
          <Text style={styles.cardTitle}>
             ToDo
           </Text>
