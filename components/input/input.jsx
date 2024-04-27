@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         height:60,
         width:"85%",
         alignSelf:'flex-end',
-        color:COLORS.darkBlue,
+        color:COLORS.dark,
         fontWeight:'bold'
     }
 })

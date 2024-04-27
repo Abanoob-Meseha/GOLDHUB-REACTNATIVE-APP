@@ -1,6 +1,6 @@
-import { Image, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native'
-import COLORS from '../constants/colors'
-import Input from '../components/input/input'
+import {StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import COLORS from '../../constants/colors'
+import Input from '../../components/input/input'
 import Icon  from 'react-native-vector-icons/FontAwesome6';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message'
@@ -25,11 +25,11 @@ export default function register() {
             <TouchableOpacity style={styles.fingerprintBtn}>
                 <Text style={styles.fingerText}> اضغط هنا لادخال البصمة </Text>
             </TouchableOpacity>
-            <Ionicon name='finger-print-sharp' size={100} color={COLORS.darkBlue}/>
+            <Ionicon name='finger-print-sharp' size={100} color={COLORS.dark}/>
             
             <TouchableOpacity style={styles.registerBtn}
                 onPress={handleSubmit} >
-                <Icon name='arrow-right' size={50} color={COLORS.darkBlue}/>
+                <Icon name='arrow-right' size={50} color={COLORS.dark}/>
             </TouchableOpacity>
         </View>
         <Toast/> 
@@ -40,7 +40,7 @@ export default function register() {
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:COLORS.darkBlue,
+        backgroundColor:COLORS.dark,
         alignContent: "center",
         alignItems:'center',
     },
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         paddingVertical:10,
         width:'80%',
         height:76,
-        backgroundColor:COLORS.darkBlue,
+        backgroundColor:COLORS.dark,
         borderColor:COLORS.baleGold,
         borderWidth:4,
         shadowColor:COLORS.baleGold,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     registerBtn:{
-        borderColor:COLORS.darkBlue,
+        borderColor:COLORS.dark,
         borderWidth:2,
         marginTop:20,
         width:80,

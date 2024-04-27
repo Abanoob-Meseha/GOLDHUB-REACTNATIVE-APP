@@ -13,9 +13,11 @@ export default function App() {
           <Text style={styles.btnP_Text}> ابـــدأ الان </Text>
         </TouchableOpacity>
       </Link>
-      <TouchableOpacity style={styles.seconderyBTN}>
-        <Text style={styles.btnS_Text}> لدي حساب بالفعل </Text>
-      </TouchableOpacity>
+      <Link href="/login" asChild>
+        <TouchableOpacity style={styles.seconderyBTN}>
+          <Text style={styles.btnS_Text}> لدي حساب بالفعل </Text>
+        </TouchableOpacity>
+      </Link>
       <StatusBar style="auto" />
     </View>
   );
@@ -24,7 +26,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.darkBlue,
+    backgroundColor: COLORS.dark,
     alignItems: 'center',
     justifyContent: 'center',
   },
