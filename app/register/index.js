@@ -1,93 +1,133 @@
-import {StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import COLORS from '../../constants/colors'
-import Input from '../../components/input/input'
+import { StyleSheet, View , Text , Platform} from 'react-native'
+import { Modal, Portal ,TextInput ,Checkbox, Button ,ActivityIndicator} from 'react-native-paper';
+import { useState  } from 'react';
+import COLORS from '../../constants/colors';
+import {colors} from "../../constants/theme.json"
 import Icon  from 'react-native-vector-icons/FontAwesome6';
-import Ionicon from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message'
+import {userRegister} from '../../utils/firebase.util'
 
 export default function register() {
+    const [brand, setBrand] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [phone, setPhone] = useState("");
+    const [fingerprint, setFingerprint] = useState("");
+    const [checked, setChecked] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const showModal = () => setVisible(true);
+    const hideModal = () => setVisible(false);
+  
     const handleSubmit = ()=>{
+        userRegister()
         Toast.show({
             type: 'success',
             text1: 'GOLDHUB TEAM',
             text2: 'Welcome To GOLDHUB👋'
           });
     }
+    
+  
   return (
     <View style={styles.container}>
-        <Text style={styles.title}> ادخل البيانات الاتية </Text>
-        <Input icon='store' placeholder=' اسم البراند الخاص بك'/>
-        <Input type="phone-pad" icon='square-phone' placeholder=' رقم الهاتف الخاص بك'/>
-        <Input icon='user-tie' placeholder='اســم المسـتخدم'/>
-        <Input icon='user-lock' placeholder='الرقم السري للصلاحية' secure= {true} />
+      <Text style={styles.title}> ادخل البيانات الاتية </Text>
+      <View style={styles.form}>
+        <TextInput
+          label="اسم البراند الخاص بك"
+          right={<TextInput.Icon icon="store" color={colors.primary} />}
+          value={brand}
+          mode='outlined'
+          style={styles.input}
+          onChangeText={brand => setBrand(brand)}
+        />
+        <TextInput
+          mode='outlined'
+          right={<TextInput.Icon icon="phone" color={colors.primary} />}
+          label="رقم الهاتف الخاص بك"
+          value={phone}
+          style={styles.input}
+          onChangeText={phone => setPhone(phone)}
+        />
+        <TextInput
+          mode='outlined'
+          right={<TextInput.Icon icon="account" color={colors.primary} />}
+          label="اسم المستخدم الخاص بك"
+          value={username}
+          style={styles.input}
+          onChangeText={username => setUsername(username)}
+        />
+        <TextInput
+          right={<TextInput.Icon icon="eye" color={colors.primary} />}
+          mode='outlined'
+          label="الرقم السري الخاص بك"
+          value={password}
+          style={styles.input}
+          onChangeText={password => setPassword(password)}
+        />
         
-        <View style={styles.fingerprintContainer}>
-            <TouchableOpacity style={styles.fingerprintBtn}>
-                <Text style={styles.fingerText}> اضغط هنا لادخال البصمة </Text>
-            </TouchableOpacity>
-            <Ionicon name='finger-print-sharp' size={100} color={COLORS.dark}/>
-            
-            <TouchableOpacity style={styles.registerBtn}
-                onPress={handleSubmit} >
-                <Icon name='arrow-right' size={50} color={COLORS.dark}/>
-            </TouchableOpacity>
-        </View>
-        <Toast/> 
+      </View>
+      <View style={styles.fingerSectionContainer}>
+        <Icon name='fingerprint' size={100}  color={colors.primary}/>
+        <Button mode='elevated' style={{marginTop: 30}} onPress={showModal}>
+            سجل البصمة الخاصة بك من هنا
+        </Button>
+      </View>
+      <Button style={styles.loginButton} labelStyle={{fontSize:20 }} textColor={colors.secondary} icon="login" mode="contained" onPress={() => console.log('Pressed')}>
+          انشاء الحساب الان  
+        </Button>
+      <Portal>
+          <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modalStyle}>
+            <Text style={{textAlign:'center' , marginBottom:'3%'}}>
+              جاري مسح مستشعر البصمة
+            </Text>
+            <Icon name='fingerprint' size={50}  color={colors.primary} style={{marginBottom:'3%'}}/>
+            <ActivityIndicator animating={true} color={colors.primary} />
+          </Modal>
+        </Portal>
+        
     </View>
   )
 }
-
+ 
 const styles = StyleSheet.create({
     container:{
-        flex:1,
-        backgroundColor:COLORS.dark,
-        alignContent: "center",
-        alignItems:'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex:1,
+      backgroundColor: COLORS.dark,
     },
     title:{
-        color:COLORS.Gold,
-        shadowColor:'black',
-        fontSize:45,
-        fontWeight:'bold',
-        textAlign:"center",
-        marginTop:'7%'
+      color:COLORS.Gold,
+      fontSize:40,
+      fontWeight:"bold",
+      textAlign:'center',
+      marginBottom:'3%',
     },
-    fingerprintContainer:{
-        backgroundColor:COLORS.gray,
-        flex:1,
-        width:'100%',
-        borderTopRightRadius:50,
-        borderTopLeftRadius:50,
-        alignItems:'center',
+    form:{
+      width:'80%',
+      alignSelf:'center',
     },
-    fingerprintBtn:{
-        elevation:3,
-        paddingVertical:10,
-        width:'80%',
-        height:76,
-        backgroundColor:COLORS.dark,
-        borderColor:COLORS.baleGold,
-        borderWidth:4,
-        shadowColor:COLORS.baleGold,
-        borderRadius:25,
-        justifyContent:'center',
-        alignItems:'center',
-        marginBottom:'7%'
+    input:{
+      marginBottom:'5%',
+      height:60,
+      fontSize:20,
+      textAlign:'right',
     },
-    fingerText:{
-        color:'white',
-        fontSize:25,
-        fontWeight: 'bold',
+    modalStyle:{
+      backgroundColor:colors.secondaryContainer,
+      padding:'2%',
+      borderRadius:10,
+      alignItems:'center',
     },
-    registerBtn:{
-        borderColor:COLORS.dark,
-        borderWidth:2,
-        marginTop:20,
-        width:80,
-        height:80,
-        borderRadius:50,
-        backgroundColor:COLORS.Gold,
-        alignItems:'center',
-        justifyContent:'center'
+    loginButton:{
+      height:70,
+      width:'80%',
+      marginTop:'9%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    fingerSectionContainer:{
+      alignItems:'center',
+      marginTop:'10%'
     }
 })

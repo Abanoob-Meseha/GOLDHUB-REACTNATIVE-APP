@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View , Image, TouchableOpacity } from 'react-native';
+import { Button } from 'react-native-paper';
 import { Link } from 'expo-router';
+import {colors} from "../constants/theme.json"
 import COLORS from '../constants/colors';
 
 export default function App() {
@@ -8,15 +10,16 @@ export default function App() {
     <View style={styles.container}>
       <Image style={{width:'80%', height:'30%'}} source={require('../assets/images/LOGO.png')}></Image>
       <Text style={styles.welcomeText}> أهلا بك بـــعـــالـــم الــــذهـــــــب </Text>
-      <Link href="/register" asChild>
-        <TouchableOpacity style={styles.primaryBTN}>
-          <Text style={styles.btnP_Text}> ابـــدأ الان </Text>
-        </TouchableOpacity>
-      </Link>
+      
       <Link href="/login" asChild>
-        <TouchableOpacity style={styles.seconderyBTN}>
-          <Text style={styles.btnS_Text}> لدي حساب بالفعل </Text>
-        </TouchableOpacity>
+        <Button style={styles.BTN} labelStyle={{fontSize:20}} textColor={colors.secondary} icon="login" mode="elevated" onPress={() => console.log('Pressed')}>
+          لدي حساب بالفعل 
+        </Button>
+      </Link>
+      <Link href="/register" asChild>
+        <Button style={styles.BTN} labelStyle={{fontSize:20 }} textColor={colors.secondary} icon="gold" mode="contained" onPress={() => console.log('Pressed')}>
+          ابــــدأ الان
+        </Button>
       </Link>
       <StatusBar style="auto" />
     </View>
@@ -38,40 +41,12 @@ const styles = StyleSheet.create({
     textAlign:'center',
     marginTop:'10%'
   },
-  primaryBTN:{
-    width:"70%",
+  BTN:{
+    width:'80%',
     height:70,
-    borderRadius:20,
-    backgroundColor:COLORS.gray,
-    marginTop:30,
-    paddingVertical:'1%',
-    borderColor:COLORS.Gold,
-    borderWidth:3,
-  },
-  btnP_Text:{
-    color:COLORS.Gold,
-    fontSize:40,
-    fontWeight:'bold',
-    textAlign:'center',
-    textShadowColor:'black'
-  },
-  seconderyBTN:{
-    width:"70%",
-    height:70,
-    borderRadius:20,
-    backgroundColor:COLORS.Gold,
-    paddingVertical:'2%',
-    borderColor:COLORS.gray,
-    borderWidth:3,
-    marginTop:15,
-
-  },
-  btnS_Text:{
-    color:COLORS.gray,
-    fontSize:30,
-    fontWeight:'bold',
-    textAlign:'center',
-    textShadowColor:'black'
-
+    marginTop:'5%',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
+
 });

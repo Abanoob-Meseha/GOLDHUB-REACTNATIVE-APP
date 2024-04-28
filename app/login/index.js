@@ -1,9 +1,10 @@
-import { StyleSheet, View , Text} from 'react-native'
-import { Modal, Portal ,TextInput ,Checkbox, Button } from 'react-native-paper';
-import { useState } from 'react';
+import { StyleSheet, View , Text , Platform} from 'react-native'
+import { Modal, Portal ,TextInput ,Checkbox, Button ,ActivityIndicator} from 'react-native-paper';
+import { useState  } from 'react';
 import COLORS from '../../constants/colors';
 import {colors} from "../../constants/theme.json"
 import Icon  from 'react-native-vector-icons/FontAwesome6';
+
 export default function index() {
   const [brand, setBrand] = useState("");
   const [username, setUsername] = useState("");
@@ -13,14 +14,15 @@ export default function index() {
   const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-
-
+  
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}> تسجيل الدخول </Text>
       <View style={styles.form}>
         <TextInput
           label="اسم البراند الخاص بك"
+          right={<TextInput.Icon icon="store" color={colors.primary} />}
           value={brand}
           mode='outlined'
           style={styles.input}
@@ -28,12 +30,14 @@ export default function index() {
         />
         <TextInput
           mode='outlined'
+          right={<TextInput.Icon icon="account" color={colors.primary} />}
           label="اسم المستخدم الخاص بك"
           value={username}
           style={styles.input}
           onChangeText={username => setUsername(username)}
         />
         <TextInput
+          right={<TextInput.Icon icon="eye" color={colors.primary} />}
           mode='outlined'
           label="الرقم السري الخاص بك"
           value={password}
@@ -55,7 +59,7 @@ export default function index() {
         />
         </View>
         <Button style={styles.loginButton} labelStyle={{fontSize:20 }} textColor={colors.secondary} icon="login" mode="contained" onPress={() => console.log('Pressed')}>
-          تسجيل الدخول  
+          تـسجيـــل الـدخـــول  
         </Button>
       </View>
       <View style={styles.fingerSectionContainer}>
@@ -66,7 +70,11 @@ export default function index() {
       </View>
       <Portal>
           <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modalStyle}>
-            <Text>Example Modal.  Click outside this area to dismiss.</Text>
+            <Text style={{textAlign:'center' , marginBottom:'3%'}}>
+              جاري مسح مستشعر البصمة
+            </Text>
+            <Icon name='fingerprint' size={50}  color={colors.primary} style={{marginBottom:'3%'}}/>
+            <ActivityIndicator animating={true} color={colors.primary} />
           </Modal>
         </Portal>
         
@@ -119,6 +127,7 @@ const styles = StyleSheet.create({
       backgroundColor:colors.secondaryContainer,
       padding:'2%',
       borderRadius:10,
+      alignItems:'center',
     },
     loginButton:{
       height:70,
