@@ -10,6 +10,7 @@ export default function index() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fingerprint, setFingerprint] = useState("");
+  const [hidePassword , setHidePassword] = useState(true);
   const [checked, setChecked] = useState(false);
   const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(true);
@@ -37,11 +38,12 @@ export default function index() {
           onChangeText={username => setUsername(username)}
         />
         <TextInput
-          right={<TextInput.Icon icon="eye" color={colors.primary} />}
+          right={<TextInput.Icon icon="eye" color={colors.primary} onPress={()=>{setHidePassword(!hidePassword)}}/>}
           mode='outlined'
           label="الرقم السري الخاص بك"
           value={password}
           style={styles.input}
+          secureTextEntry={hidePassword ? true :false}
           onChangeText={password => setPassword(password)}
         />
         <View style={styles.rememberMeContainer}>

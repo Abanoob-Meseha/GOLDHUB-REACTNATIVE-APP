@@ -6,12 +6,15 @@ import {colors} from "../../constants/theme.json"
 import Icon  from 'react-native-vector-icons/FontAwesome6';
 import Toast from 'react-native-toast-message'
 import {userRegister} from '../../utils/firebase.util'
+import { Link } from 'expo-router';
+import {getUser} from '../../utils/asyncStorage.util'
 
 export default function register() {
     const [brand, setBrand] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
+    const [hidePassword , setHidePassword] = useState(true);
     const [fingerprint, setFingerprint] = useState("");
     const [checked, setChecked] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -57,11 +60,12 @@ export default function register() {
           onChangeText={username => setUsername(username)}
         />
         <TextInput
-          right={<TextInput.Icon icon="eye" color={colors.primary} />}
+          right={<TextInput.Icon icon="eye" color={colors.primary} onPress={()=>{setHidePassword(!hidePassword)}}/>}
           mode='outlined'
           label="الرقم السري الخاص بك"
           value={password}
           style={styles.input}
+          secureTextEntry={hidePassword ? true :false}
           onChangeText={password => setPassword(password)}
         />
         
@@ -72,9 +76,13 @@ export default function register() {
             سجل البصمة الخاصة بك من هنا
         </Button>
       </View>
-      <Button style={styles.loginButton} labelStyle={{fontSize:20 }} textColor={colors.secondary} icon="login" mode="contained" onPress={() => console.log('Pressed')}>
+      <Link href={'/dashboard'} asChild>
+        <Button style={styles.loginButton} labelStyle={{fontSize:20 }} textColor={colors.secondary} icon="login" mode="contained" 
+        onPress={() => getUser('1234')}>
           انشاء الحساب الان  
         </Button>
+      </Link>
+      
       <Portal>
           <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modalStyle}>
             <Text style={{textAlign:'center' , marginBottom:'3%'}}>
