@@ -1,33 +1,47 @@
-import { StyleSheet, View , Text , Platform} from 'react-native'
-import { Modal, Portal ,TextInput ,Checkbox, Button ,ActivityIndicator} from 'react-native-paper';
+import { StyleSheet, View , Text } from 'react-native'
+import { Modal, Portal ,TextInput , Button ,ActivityIndicator} from 'react-native-paper';
 import { useState  } from 'react';
 import COLORS from '../../constants/colors';
 import {colors} from "../../constants/theme.json"
 import Icon  from 'react-native-vector-icons/FontAwesome6';
 import Toast from 'react-native-toast-message'
-import {userRegister} from '../../utils/firebase.util'
+import {userRegisterOnline} from '../../utils/firebase.util'
 import { Link } from 'expo-router';
-import {getUser} from '../../utils/asyncStorage.util'
+import {saveUser} from '../../utils/asyncStorage.util'
 
 export default function register() {
     const [brand, setBrand] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
-    const [hidePassword , setHidePassword] = useState(true);
     const [fingerprint, setFingerprint] = useState("");
+
+    const [hidePassword , setHidePassword] = useState(true);
     const [checked, setChecked] = useState(false);
     const [visible, setVisible] = useState(false);
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
   
-    const handleSubmit = ()=>{
-        userRegister()
-        Toast.show({
-            type: 'success',
-            text1: 'GOLDHUB TEAM',
-            text2: 'Welcome To GOLDHUB👋'
-          });
+    const handleRegister = ()=>{
+      let formData = {
+        brand,
+        username,
+        phone,
+        fingerprint,
+        password
+      }
+      userRegisterOnline(formData).then((user)=>{
+        const token = user.getIdToken();
+        const id = user.uid;
+        saveUser(id ,{...formData , token , id})
+      }).catch((err)=>{
+        console.log('problem in registeration', err)
+      })
+      Toast.show({
+          type: 'success',
+          text1: 'GOLDHUB TEAM',
+          text2: 'Welcome To GOLDHUB👋'
+        });
     }
     
   
@@ -78,7 +92,7 @@ export default function register() {
       </View>
       <Link href={'/dashboard'} asChild>
         <Button style={styles.loginButton} labelStyle={{fontSize:20 }} textColor={colors.secondary} icon="login" mode="contained" 
-        onPress={() => getUser('1234')}>
+        onPress={handleRegister} >
           انشاء الحساب الان  
         </Button>
       </Link>

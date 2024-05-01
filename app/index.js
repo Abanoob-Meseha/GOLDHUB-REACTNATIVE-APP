@@ -4,8 +4,14 @@ import { Button } from 'react-native-paper';
 import { Link } from 'expo-router';
 import {colors} from "../constants/theme.json"
 import COLORS from '../constants/colors';
+import { useEffect, useState } from 'react';
 
 export default function App() {
+  const [user , setUser] = useState(null);
+  
+  useEffect(()=>{
+
+  } , [])
   return (
     <View style={styles.container}>
       <Image style={{width:'80%', height:'30%'}} source={require('../assets/images/LOGO.png')}></Image>

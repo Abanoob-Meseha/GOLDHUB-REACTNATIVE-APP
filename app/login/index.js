@@ -4,6 +4,8 @@ import { useState  } from 'react';
 import COLORS from '../../constants/colors';
 import {colors} from "../../constants/theme.json"
 import Icon  from 'react-native-vector-icons/FontAwesome6';
+import * as LocalAuthentication from 'expo-local-authentication';
+import { router } from 'expo-router';
 
 export default function index() {
   const [brand, setBrand] = useState("");
@@ -13,8 +15,18 @@ export default function index() {
   const [hidePassword , setHidePassword] = useState(true);
   const [checked, setChecked] = useState(false);
   const [visible, setVisible] = useState(false);
-  const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
+  const handleLocalAuth = async () => {
+    setVisible(true);
+    const result = await LocalAuthentication.authenticateAsync();
+    if (result.success) {
+      console.log('Authentication successful');
+      hideModal()
+      router.replace('/addClient')
+    } else {
+      console.log('Authentication failed');
+    }
+  };
   
   
   return (
@@ -60,13 +72,15 @@ export default function index() {
           }}
         />
         </View>
-        <Button style={styles.loginButton} labelStyle={{fontSize:20 }} textColor={colors.secondary} icon="login" mode="contained" onPress={() => console.log('Pressed')}>
+        <Button style={styles.loginButton} labelStyle={{fontSize:20 }} textColor={colors.secondary} icon="login" mode="contained" 
+        onPress={() => console.log('Pressed')}>
           تـسجيـــل الـدخـــول  
         </Button>
       </View>
       <View style={styles.fingerSectionContainer}>
         <Icon name='fingerprint' size={100}  color={colors.primary}/>
-        <Button mode='elevated' style={{marginTop: 30}} onPress={showModal}>
+        <Button mode='elevated' style={{marginTop: 30}} 
+        onPress={handleLocalAuth}>
           سجل الدخول عن طريق البصمة
         </Button>
       </View>
