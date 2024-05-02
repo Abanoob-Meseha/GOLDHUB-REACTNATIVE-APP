@@ -1,15 +1,13 @@
 import { StyleSheet, View, Dimensions } from 'react-native'
 import COLORS from '../../constants/colors'
-import Navbar from '../../components/navbar/navbar'
-import DailyPrice from '../../components/dailyprice/dailyPrice'
 import AvgGramPrice from '../../components/avggramprice/avgGramPrice'
 import Transactions from '../../components/transactions/transactions'
 
 export default function dashboardTransactions() {
   return (
     <View style={styles.container}>
-        <Navbar />
-        <DailyPrice />
+        {/* <Navbar /> */}
+        {/* <DailyPrice /> */}
         <View style={styles.fingerprintContainer}>
         <AvgGramPrice />
         <Transactions />

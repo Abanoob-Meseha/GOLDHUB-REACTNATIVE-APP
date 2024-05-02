@@ -1,17 +1,23 @@
-import { StyleSheet} from 'react-native'
+import { StyleSheet, View} from 'react-native'
 import Swiper from 'react-native-swiper';
 import COLORS from '../../constants/colors'
+import Navbar from '../../components/navbar/navbar'
+import DailyPrice from '../../components/dailyprice/dailyPrice'
 import DashboardLanding from './dashboardLanding'
 import DashboardTwo from './dashboardTwo'
 import DashboardTransactions from './dashboardTransactions'
 
 export default function dashboard() {
   return (
-    <Swiper loop={false} showsPagination={true} index={1}>
-    <DashboardTwo />
-    <DashboardLanding />
-    <DashboardTransactions />
-  </Swiper>
+    <View style={styles.container}>
+      <Navbar />
+      <DailyPrice />
+      <Swiper loop={false} showsPagination={true} index={1}>
+        <DashboardTwo />
+        <DashboardLanding />
+        <DashboardTransactions />
+      </Swiper>
+    </View>
   )
 }
 

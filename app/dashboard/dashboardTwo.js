@@ -1,14 +1,12 @@
 import { StyleSheet, View } from 'react-native'
 import COLORS from '../../constants/colors'
-import Navbar from '../../components/navbar/navbar'
-import DailyPrice from '../../components/dailyprice/dailyPrice'
 import DashboardTwo from '../../components/dashboardtwo/dashboardTwo'
 
 export default function dashboardTwo() {
   return (
     <View style={styles.container}>
-        <Navbar />
-        <DailyPrice />
+        {/* <Navbar /> */}
+        {/* <DailyPrice /> */}
         <View style={styles.fingerprintContainer}>
             <DashboardTwo />
         </View>
