@@ -1,9 +1,11 @@
 export const styles = { 
     container: {
         flex: 1,
+        backgroundColor: '#fff',
+        paddingHorizontal: 20, 
+        // paddingVertical: 5, 
         maxHeight: "60%",
-        borderRadius:10,
-        width: "90%"
+        borderRadius:10
       },
       title: {
         color: "#E6AF2E",
@@ -11,16 +13,17 @@ export const styles = {
         fontWeight: "bold"
       },
       card: {
-        backgroundColor: "#fff",
+        backgroundColor: "#D9D9D9",
         width: "100%",
-        minHeight: "20%",
+        aspectRatio: 5,
         alignItems: "center",
         justifyContent: "space-between",
         borderRadius: 15,
         borderColor:"#000000",
         borderWidth: 2,
         flexDirection: "row",
-        // marginVertical: 1
+        justifyContent: "space-between",
+        marginVertical: 1
       },
       cardTitle: {
         fontSize: 18,
@@ -40,22 +43,16 @@ export const styles = {
         color: "#10BC02"
       },
       transactionsTitle: {
-        minHeight: "10%",
         flexDirection:"row",
         justifyContent: "space-between",
-        alignItems:"center",
         paddingHorizontal: 15,
         color: "#10BC02",
-        marginVertical: 5,
-        borderRadius: 15,
-        borderColor:"#000000",
-        borderWidth: 3,
+        marginVertical: 10
       },
       txt: {
         fontSize: 16,
         fontWeight: "bold",
-        color:"#E6AF2E",
-        marginVertical: 5,
+        color:"#E6AF2E"
       },
       showMore: {
         fontSize: 18,

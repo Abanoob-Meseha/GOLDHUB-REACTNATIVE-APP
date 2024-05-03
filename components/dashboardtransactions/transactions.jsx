@@ -6,10 +6,10 @@ export default function Transactions() {
   const data = [
     {
       id: "transaction1",
-      name: "1حماده",
+      name: "حماده",
       price: "1000$",
       date: "12/12/2011",
-      type: "buy"
+      type: "sell"
     },
     {
       id: "transaction2235",
@@ -27,42 +27,42 @@ export default function Transactions() {
     },
     {
         id: "transaction244",
-        name: "4حماده",
+        name: "2حماده",
         price: "2000$",
         date: "12/12/2012",
         type: "buy"
       },
       {
         id: "transaction33",
-        name: "5حماده",
+        name: "2حماده",
         price: "2000$",
         date: "12/12/2012",
-        type: "sell"
+        type: "buy"
       },
       {
         id: "transaction336",
-        name: "6حماده",
+        name: "2حماده",
         price: "2000$",
         date: "12/12/2012",
         type: "buy"
       },
       {
         id: "transaction33433",
-        name: "7حماده",
+        name: "2حماده",
         price: "2000$",
         date: "12/12/2012",
         type: "buy"
       },
       {
         id: "transaction3312",
-        name: "8حماده",
+        name: "2حماده",
         price: "2000$",
         date: "12/12/2012",
         type: "buy"
       },
       {
         id: "transaction3323",
-        name: "9حماده",
+        name: "2حماده",
         price: "2000$",
         date: "12/12/2012",
         type: "buy"
@@ -85,19 +85,10 @@ export default function Transactions() {
     <View style={styles.container}>
       <View style={styles.transactionsTitle}>
         <Text style={styles.txt}>
-        رقم الحركه
+          عرض الكل
         </Text>
-        <Text style={styles.txt}>
-        العميل
-        </Text>
-        <Text style={styles.txt}>
-        الخزنه
-        </Text>
-        <Text style={styles.txt}>
-        قيمة الحركه
-        </Text>
-        <Text style={styles.txt}>
-        اجمالى النقديه
+        <Text style={styles.showMore}>
+        موقف شراء  / بيع
         </Text>
       </View>
       <FlatList
