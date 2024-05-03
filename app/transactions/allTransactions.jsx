@@ -8,7 +8,7 @@ export default function allTransactions() {
   return (
     <View style={styles.container}>
             <Transactions />
-            <TransactionsFooter />
+            <TransactionsFooter index = "0"/>
     </View>
   )
 }
