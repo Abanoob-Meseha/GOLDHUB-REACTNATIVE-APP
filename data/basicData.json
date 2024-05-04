@@ -1,0 +1,37 @@
+{
+    "client":[
+        { "label": "مورد", "value": "مورد" },
+        { "label": "عميل", "value": "عميل" },
+        { "label": "مسوئجي", "value": "مسوئجي" },
+        { "label": "جرد", "value": "جرد" },
+        { "label": "حسابات", "value": "حسابات" }
+    ]
+    ,
+    "outPrice":[
+        { "label": "تكلفة", "value": "تكلفة" },
+        { "label": "بيع جملة", "value": "بيع جملة" },
+        { "label": "البيع", "value": "البيع" },
+        { "label": "البيع العادل", "value": "البيع العادل" }
+    ]
+    ,
+    "moveTypes":[
+        {"label":"وارد" , "value":"وارد"},
+        {"label":"منصرف" , "value":"منصرف"},
+        {"label":"قطعية" , "value":"قطعية"},
+        {"label":"تحويل" , "value":"تحويل"},
+        {"label":"بنوك و كروت" , "value":"بنوك و كروت"}
+
+    ],
+    "in_outData":[
+        {"moveType":"عيار 21" , "operator":0.875},
+        {"moveType":"عيار 18" , "operator":0.750},
+        {"moveType":"عيار 22" , "operator":0.916},
+        {"moveType":"عيار 9999" , "operator":0.9999},
+        {"moveType":"عيار 9999 شركات" , "operator":0.9999},
+        {"moveType":"نقدية" , "operator":1},
+        {"moveType":"نقد اجنبي" , "operator":50},
+        {"moveType":"عيار 15" , "operator":1},
+        {"moveType":"نقد اجنبي 2" , "operator":70}
+
+    ]
+}

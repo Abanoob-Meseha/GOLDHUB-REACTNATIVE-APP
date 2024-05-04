@@ -6,12 +6,15 @@ import AppBar from '../../components/appBar/appBar';
 import { TextInput , Button } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown';
 import {colors} from '../../constants/theme.json'
+import {client , outPrice} from '../../data/basicData.json'
+
 export default function index() {
   
   useEffect(() => {
     changeOrientationToLandscape()
     return(()=>changeOrientaionToPortrait() )   
   }, []);
+  // do not forget the date it should saved with every deal as global
   const [loading , setLoading]= useState(false);
   const [id, setId] = useState('100');
   const [clientType, setClientType] = useState(null);
@@ -24,13 +27,8 @@ export default function index() {
   const [initialMoney , setInitialMoney]= useState("");
   const [initialGold , setInitialGold]= useState("");
 
-  const dropmenuData = [
-    { label: 'مورد', value: 'مورد' },
-    { label: 'عميل', value: 'عميل' },
-    { label: 'مسوئجي', value: 'مسوئجي' },
-    { label: 'جرد', value: 'جرد' },
-    { label: 'حسابات', value: 'حسابات' },
-  ]
+  const clientType_dropmenu = client ;
+  const outPrice_dropmenu = outPrice ; 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,6 +37,7 @@ export default function index() {
         <ScrollView contentContainerStyle={styles.form}>
           <View style={styles.row}>
             <TextInput
+              keyboardType='phone-pad'
               mode='outlined'
               label="رقم هاتف المتعامل"
               value={phone}
@@ -56,7 +55,7 @@ export default function index() {
               labelField="label"
               valueField="value"
               placeholder="نوع المتعامل"
-              data={dropmenuData}
+              data={clientType_dropmenu}
               value={clientType}
               style={styles.dropdown}
               maxHeight={300}
@@ -68,7 +67,7 @@ export default function index() {
               labelField="label"
               valueField="value"
               placeholder="سعر الصرف"
-              data={dropmenuData}
+              data={outPrice_dropmenu}
               value={priceType}
               style={styles.dropdown}
               maxHeight={300}
@@ -85,6 +84,7 @@ export default function index() {
           </View>
           <View style={[styles.row , {justifyContent:'space-around',backgroundColor:'green',marginBottom:0,paddingVertical:5}]}>
             <TextInput
+              keyboardType='phone-pad'
               mode='outlined'
               label="كاش"
               value={initialMoney}
@@ -92,6 +92,7 @@ export default function index() {
               right={<TextInput.Icon icon="cash-multiple" color={colors.primary} />}
             />
             <TextInput
+              keyboardType='phone-pad'
               mode='outlined'
               label="دهــب"
               value={initialGold}
@@ -102,6 +103,7 @@ export default function index() {
           </View>
           <View style={[styles.row , {justifyContent:'space-around',backgroundColor:colors.onError,marginBottom:0,paddingVertical:5}]}>
             <TextInput
+              keyboardType='phone-pad'
               mode='outlined'
               label="كاش"
               value={creditLimitMoney}
@@ -109,6 +111,7 @@ export default function index() {
               right={<TextInput.Icon icon="cash-multiple" color={colors.primary} />}
             />
             <TextInput
+              keyboardType='phone-pad'
               mode='outlined'
               label="دهــب"
               value={creditLimitGold}
