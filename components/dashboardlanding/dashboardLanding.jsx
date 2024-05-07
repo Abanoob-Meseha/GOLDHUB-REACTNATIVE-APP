@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, Image } from 'react-native';
 import { styles } from "./dashboardLandingStyle";
+import { Link } from "expo-router";
 export default function dashboardLanding() {
   
   return (
@@ -12,12 +13,14 @@ export default function dashboardLanding() {
             الجرد
           </Text>
         </View>
-        <View style ={styles.card}>
-         <Image source={require('../../assets/images/moneyflow.png')} style={styles.image} />
-         <Text style={styles.cardTitle}>
-            الحركه الماليه
-          </Text>
-        </View>
+        <Link href={'/transactions'}>
+          <View style ={styles.card}>
+          <Image source={require('../../assets/images/moneyflow.png')} style={styles.image} />
+          <Text style={styles.cardTitle}>
+              الحركه الماليه
+            </Text>
+          </View>
+        </Link>
        </View>
        <View style={styles.container}>
        <View style ={styles.card}>

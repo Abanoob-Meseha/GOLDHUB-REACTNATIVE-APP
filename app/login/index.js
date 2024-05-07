@@ -22,7 +22,7 @@ export default function index() {
     if (result.success) {
       console.log('Authentication successful');
       hideModal()
-      router.replace('/addClient')
+      router.replace('/dashboard')
     } else {
       console.log('Authentication failed');
     }

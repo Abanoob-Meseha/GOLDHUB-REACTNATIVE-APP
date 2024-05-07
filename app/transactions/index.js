@@ -6,7 +6,8 @@ import {changeOrientaionToPortrait , changeOrientationToLandscape} from '../../u
 import TransactionsNavbar from '../../components/transactionsnavbar/transactionsNavbar'
 import AddTransaction from './addTransactionPage'
 import AllTransactions from './allTransactions'
-
+import AppBar from '../../components/appBar/appBar';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function transactions() {
   useEffect(() => {
@@ -14,14 +15,18 @@ export default function transactions() {
     return(()=>changeOrientaionToPortrait() )   
   }, []);
   return (
-    <View style={styles.container}>
-      <TransactionsNavbar />
+    <SafeAreaView style={styles.container}>
+      <AppBar/>
+      <View>
+        {/* <TransactionsNavbar /> */}
+        <Swiper loop={false} showsPagination={true} index={0}>
+          <AddTransaction />
+          <AllTransactions />
+        </Swiper>
+      </View>
 
-      <Swiper loop={false} showsPagination={true} index={0}>
-        <AllTransactions />
-        <AddTransaction />
-      </Swiper>
-    </View>
+    </SafeAreaView>
+    
   )
 }
 

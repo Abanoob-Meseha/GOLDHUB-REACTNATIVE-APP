@@ -6,10 +6,11 @@ import DailyPrice from '../../components/dailyprice/dailyPrice'
 import DashboardLanding from './dashboardLanding'
 import DashboardTwo from './dashboardTwo'
 import DashboardTransactions from './dashboardTransactions'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function dashboard() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Navbar />
       <DailyPrice />
       <Swiper loop={false} showsPagination={true} index={1}>
@@ -17,7 +18,7 @@ export default function dashboard() {
         <DashboardLanding />
         <DashboardTransactions />
       </Swiper>
-    </View>
+    </SafeAreaView>
   )
 }
 
