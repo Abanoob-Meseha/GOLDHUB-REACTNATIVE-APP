@@ -7,10 +7,12 @@ import DashboardLanding from './dashboardLanding'
 import DashboardTwo from './dashboardTwo'
 import DashboardTransactions from './dashboardTransactions'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import BackButtonHandler from '../../utils/backHandler'; // Import the BackButtonHandler component
 
 export default function dashboard() {
   return (
     <SafeAreaView style={styles.container}>
+      <BackButtonHandler />
       <Navbar />
       <DailyPrice />
       <Swiper loop={false} showsPagination={true} index={1}>
