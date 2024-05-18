@@ -7,7 +7,8 @@ import { TextInput , Button } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown';
 import {colors} from '../../constants/theme.json'
 import {client , outPrice} from '../../data/basicData.json'
-
+import { Link } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function index() {
   
   useEffect(() => {
@@ -16,7 +17,7 @@ export default function index() {
   }, []);
   // do not forget the date it should saved with every deal as global
   const [loading , setLoading]= useState(false);
-  const [id, setId] = useState('100');
+  const [id, setId] = useState('');
   const [clientType, setClientType] = useState(null);
   const [clientName, setClientName] = useState("");
   const [phone, setPhone] = useState("");
@@ -29,7 +30,30 @@ export default function index() {
 
   const clientType_dropmenu = client ;
   const outPrice_dropmenu = outPrice ; 
-
+    const saveClient = async (userId,user) => {
+      try {
+        await AsyncStorage.setItem(userId, JSON.stringify(user));
+        console.log("Saved user", user);
+      } catch (err) {
+        console.log('Problem saving the user', err);
+      }
+    };
+  const handleClientSave = async () => {
+    setLoading(true);
+    const user = {
+      clientName,
+      phone,
+      address,
+      priceType,
+      creditLimitGold,
+      creditLimitMoney,
+      initialMoney,
+      initialGold,
+      id
+    };
+    await saveClient(clientName, user);
+    setLoading(false);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <AppBar/>
@@ -42,7 +66,7 @@ export default function index() {
               label="رقم هاتف المتعامل"
               value={phone}
               style={{width:'20%'}}
-              onChangeText={clientName => setClientName(clientName)}
+              onChangeText={phone => setPhone(phone)}
             />
             <TextInput
               mode='outlined'
@@ -76,10 +100,12 @@ export default function index() {
               onChange={item => setPriceType(item.value)}
             />
             <TextInput
+              keyboardType='phone-pad'
               mode='outlined'
               label="ID"
               value={id}
               style={{width : '10%'}}
+              onChangeText={id => setId(id)}
             />
           </View>
           <View style={[styles.row , {justifyContent:'space-around',backgroundColor:'green',marginBottom:0,paddingVertical:5}]}>
@@ -90,6 +116,7 @@ export default function index() {
               value={initialMoney}
               style={{width : '20%'}}
               right={<TextInput.Icon icon="cash-multiple" color={colors.primary} />}
+              onChangeText={initialMoney => setInitialMoney(initialMoney)}
             />
             <TextInput
               keyboardType='phone-pad'
@@ -98,6 +125,7 @@ export default function index() {
               value={initialGold}
               style={{width : '20%'}}
               right={<TextInput.Icon icon="gold" color={colors.primary} />}
+              onChangeText={initialGold => setInitialGold(initialGold)}
             />
             <Text style={[styles.contentTitle , {fontSize:21}]}> الرصيد الافتتاحي</Text>
           </View>
@@ -109,6 +137,7 @@ export default function index() {
               value={creditLimitMoney}
               style={{width : '20%'}}
               right={<TextInput.Icon icon="cash-multiple" color={colors.primary} />}
+              onChangeText={creditLimitMoney => setCreditLimitMoney(creditLimitMoney)}
             />
             <TextInput
               keyboardType='phone-pad'
@@ -117,6 +146,7 @@ export default function index() {
               value={creditLimitGold}
               style={{width : '20%'}}
               right={<TextInput.Icon icon="gold" color={colors.primary} />}
+              onChangeText={creditLimitGold => setCreditLimitGold(creditLimitGold)}
             />
             <Text style={styles.contentTitle}> حد الائتمان </Text>
           </View>
@@ -128,12 +158,21 @@ export default function index() {
             onPress={() => console.log('Pressed')}>
               الغاء الاضافة
             </Button>
+            <Link href="/allclients" asChild>
+              <Button  
+              style={{width:'30%'}}
+              buttonColor='blue' textColor='white'
+              mode="contained" 
+              onPress={() => console.log('Pressed')}>
+                جميع العملاء
+              </Button>
+            </Link>
             <Button icon="camera" 
-            style={{width:'30%'}}
-            buttonColor='green' textColor='white'
-            mode="contained" 
-            loading={loading? true : false }
-            onPress={() => setLoading(true)}>
+              style={{width:'30%'}}
+              buttonColor='green' textColor='white'
+              mode="contained" 
+              loading={loading? true : false }
+              onPress={() => handleClientSave()}>
               اضافة العميل
             </Button>
           </View>
