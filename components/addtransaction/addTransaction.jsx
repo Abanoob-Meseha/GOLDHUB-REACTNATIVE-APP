@@ -1,75 +1,86 @@
 import React, { useState } from "react";
 import { View, TextInput } from "react-native";
 import { styles } from "./addTransactionStyle";
-import DropDownPicker from 'react-native-dropdown-picker';
+import { Dropdown } from 'react-native-element-dropdown';
+import {client , outPrice, moveTypes} from '../../data/basicData.json'
 
 export default function addTransaction(props) {
-  const [open1, setOpen1] = useState(false);
-  const [value1, setValue1] = useState(null);
-  const [items1, setItems1] = useState([
-    {label: '1', value: '1'},
-    {label: '2', value: '2'},
-    {label: '3', value: '3'},
-  ]);
+  const [treasury , setTtreasury ] = useState(false);
+  const [clientCode , setClientCode ] = useState(false);
+  const [moveType , setMoveType ] = useState(false);
+  const [move , setMove ] = useState(false);
+  const [transactionNumber , setTransactionNumber ] = useState(false);
+  const [transactionValue , setTransactionValue ] = useState(false);
+  const [factor , setFactor ] = useState(false);
+  const [valueAsGold , setValueAsGold ] = useState(false);
+  const [gramValue , setGramValue ] = useState(false);
+  const [priceAsGold , setPriceAsGold ] = useState(false);
+  const [totalCash , setTotalCash ] = useState(false);
 
-  const [open2, setOpen2] = useState(false);
-  const [value2, setValue2] = useState(null);
-  const [items2, setItems2] = useState([
-    {label: '1', value: '1'},
-    {label: '2', value: '2'},
-    {label: '3', value: '3'},
-  ]);
-
-  const [open3, setOpen3] = useState(false);
-  const [value3, setValue3] = useState(null);
-  const [items3, setItems3] = useState([
-    {label: '1', value: '1'},
-    {label: '2', value: '2'},
-    {label: '3', value: '3'},
-  ]);
-  
-  const [open4, setOpen4] = useState(false);
-  const [value4, setValue4] = useState(null);
-  const [items4, setItems4] = useState([
-    {label: '1', value: '1'},
-    {label: '2', value: '2'},
-    {label: '3', value: '3'},
-  ]);
+  const saveClient = async (userId,user) => {
+    try {
+      await AsyncStorage.setItem(userId, JSON.stringify(user));
+      console.log("Saved user", user);
+    } catch (err) {
+      console.log('Problem saving the user', err);
+    }
+  };
+const handleClientSave = async () => {
+  setLoading(true);
+  const user = {
+    treasury,
+    clientCode,
+    moveType,
+    move,
+    transactionNumber,
+    transactionValue,
+    factor,
+    valueAsGold,
+    gramValue,
+    priceAsGold,
+    totalCash
+  };
+  await saveClient(clientName, user);
+  setLoading(false);
+};
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={[{width:"30%"}, styles.field]}>
-          <DropDownPicker
-          open={open1}
-          value={value1}
-          items={items1}
-          setOpen={setOpen1}
-          setValue={setValue1}
-          setItems={setItems1}
-          placeholder={'الخزنه - كود الخزنه'}
+          <Dropdown
+          labelField="label"
+          valueField="value"
+          data={moveTypes}
+          value={treasury}
           style={styles.dropdown}
-          dropDownContainerStyle={styles.dropdownMenu}
+          maxHeight={300}
+          placeholderStyle={styles.dropdownText}
+          selectedTextStyle={styles.dropdownText}
+          onChange={item => setTtreasury(item.value)}
+          placeholder={'الخزنه - كود الخزنه'}
           />
         </View>
         <View style={[{width:"40%"}, styles.field]}>
-          <DropDownPicker
-          open={open2}
-          value={value2}
-          items={items2}
-          setOpen={setOpen2}
-          setValue={setValue2}
-          setItems={setItems2}
-          placeholder={'العميل - كود العميل'}
+          <Dropdown
+          labelField="label"
+          valueField="value"
+          data={moveTypes}
+          value={clientCode}
           style={styles.dropdown}
-          dropDownContainerStyle={styles.dropdownMenu}
+          maxHeight={300}
+          placeholderStyle={styles.dropdownText}
+          selectedTextStyle={styles.dropdownText}
+          onChange={item => setClientCode(item.value)}
+          placeholder={'العميل - كود العميل'}
         />
         </View>
         <View style={[{width:"20%"}, styles.field]}>
            <TextInput
           editable
           maxLength={5}
-          // onChangeText={text => onChangeText(text)}
-          style={styles.goldenInput}و
+          onChangeText={text => setTransactionNumber(text)}
+          value={transactionNumber}
+          style={styles.goldenInput}
           placeholder="رقم الحركه النسبى"
         />
         </View>
@@ -79,44 +90,48 @@ export default function addTransaction(props) {
            <TextInput
           editable
           maxLength={5}
-          // onChangeText={text => onChangeText(text)}
           style={styles.goldenInput}
           placeholder="المعامل"
+          onChangeText={text => setFactor(text)}
+          value={factor}
         />
         </View>
         <View style={[{width:"30%"}, styles.field]}>
            <TextInput
           editable
           maxLength={5}
-          // onChangeText={text => onChangeText(text)}
           style={styles.normalInput}
           placeholder="قيمة الحركه"
+          onChangeText={text => setTransactionValue(text)}
+          value={transactionValue}
         />
         </View>
         <View style={[{width:"20%"}, styles.field]}>
-          <DropDownPicker
-          open={open4}
-          value={value4}
-          items={items4}
-          setOpen={setOpen4}
-          setValue={setValue4}
-          setItems={setItems4}
-          placeholder={'نوع الحركه'}
+          <Dropdown
+          labelField="label"
+          valueField="value"
+          data={moveTypes}
+          value={moveType}
           style={styles.dropdown}
-          dropDownContainerStyle={styles.dropdownMenu}
+          maxHeight={300}
+          placeholderStyle={styles.dropdownText}
+          selectedTextStyle={styles.dropdownText}
+          onChange={item => setMoveType(item.value)}
+          placeholder={'نوع الحركه'}
           />
         </View>
         <View style={[{width:"20%"}, styles.field]}>
-          <DropDownPicker
-          open={open3}
-          value={value3}
-          items={items3}
-          setOpen={setOpen3}
-          setValue={setValue3}
-          setItems={setItems3}
-          placeholder={'الحركه'}
+          <Dropdown
+          labelField="label"
+          valueField="value"
+          data={moveTypes}
+          value={move}
           style={styles.dropdown}
-          dropDownContainerStyle={styles.dropdownMenu}
+          maxHeight={300}
+          placeholderStyle={styles.dropdownText}
+          selectedTextStyle={styles.dropdownText}
+          onChange={item => setMove(item.value)}
+          placeholder={'الحركه'}
         />
         </View>
       </View>
@@ -125,37 +140,40 @@ export default function addTransaction(props) {
            <TextInput
           editable
           maxLength={5}
-          // onChangeText={text => onChangeText(text)}
           style={styles.goldenInput}
           placeholder="اجمالى النقديه"
+          onChangeText={text => setTotalCash(text)}
+          value={totalCash}
         />
         </View>
         <View style={[{width:"20%"}, styles.field]}>
            <TextInput
           editable
           maxLength={5}
-          // onChangeText={text => onChangeText(text)}
           style={styles.goldenInput}
           placeholder=" الاجره كذهب 21"
-
+          onChangeText={text => setPriceAsGold(text)}
+          value={priceAsGold}
         />
         </View>
         <View style={[{width:"20%"}, styles.field]}>
            <TextInput
           editable
           maxLength={5}
-          // onChangeText={text => onChangeText(text)}
           style={styles.normalInput}
           placeholder="اجرة الجرام ..."
+          onChangeText={text => setGramValue(text)}
+          value={gramValue}
         />
         </View>
         <View style={[{width:"25%"}, styles.field]}>
            <TextInput
           editable
           maxLength={5}
-          // onChangeText={text => onChangeText(text)}
           style={styles.goldenInput}
           placeholder="القيمه كذهب 21"
+          onChangeText={text => setValueAsGold(text)}
+          value={valueAsGold}
         />
         </View>
       </View>

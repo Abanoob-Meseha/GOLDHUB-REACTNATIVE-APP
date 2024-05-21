@@ -45,11 +45,16 @@ export const styles = {
       alignItems:"center",
       justifyContent:"center",
       height: "100%",
-      zIndex:1
+      zIndex:1,
+      borderRadius: 5,
+      backgroundColor:"#fff"
     },
     dropdownMenu: {
       width: '100%', 
       zIndex:3
-      // Adjust width as needed
+    },
+    dropdownText:{
+      fontSize:15,
+      marginRight:'10%'
     },
 }

@@ -9,15 +9,16 @@ export const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:"space-between",
         alignItems:'center',
+        width: "100%"
       },
       sell_BuyContainer:{
        flexDirection:'row', 
-       width:'25%',
+       width:'30%',
        alignItems:'center',
        justifyContent:'space-between'
       },
       input:{
-        width:100,
+        width:"50%",
         fontSize:20
       },
       dateText:{
@@ -28,7 +29,8 @@ export const styles = StyleSheet.create({
         padding:'1%',
         borderRadius:15,
         textAlignVertical:'center',
-        textAlign:'center'
+        textAlign:'center',
+        width: "20%"
       },
       actionBar:{
         flexDirection:'row',
