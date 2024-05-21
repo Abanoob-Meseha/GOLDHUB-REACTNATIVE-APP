@@ -7,7 +7,8 @@ import Icon  from 'react-native-vector-icons/FontAwesome6';
 import Toast from 'react-native-toast-message'
 import {userRegisterOnline} from '../../utils/firebase.util'
 import { Link } from 'expo-router';
-import {saveUser} from '../../utils/asyncStorage.util'
+import { getIdToken } from 'firebase/auth/cordova';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function register() {
     const [brand, setBrand] = useState("");
@@ -21,7 +22,15 @@ export default function register() {
     const [visible, setVisible] = useState(false);
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
-  
+    
+    const saveUser = async (userId,user) => {
+      try {
+        await AsyncStorage.setItem(userId, JSON.stringify(user));
+        console.log("Saved user", user);
+      } catch (err) {
+        console.log('Problem saving the user', err);
+      }
+    };
     const handleRegister = ()=>{
       let formData = {
         brand,
@@ -30,13 +39,9 @@ export default function register() {
         fingerprint,
         password
       }
-      userRegisterOnline(formData).then((user)=>{
-        const token = user.getIdToken();
-        const id = user.uid;
-        saveUser(id ,{...formData , token , id})
-      }).catch((err)=>{
-        console.log('problem in registeration', err)
-      })
+    
+      saveUser(brand, formData);
+     
       Toast.show({
           type: 'success',
           text1: 'GOLDHUB TEAM',
@@ -90,12 +95,12 @@ export default function register() {
             سجل البصمة الخاصة بك من هنا
         </Button>
       </View>
-      <Link href={'/dashboard'} asChild>
+      <Link href={'/dashboard'} asChild> 
         <Button style={styles.loginButton} labelStyle={{fontSize:20 }} textColor={colors.secondary} icon="login" mode="contained" 
         onPress={handleRegister} >
           انشاء الحساب الان  
         </Button>
-      </Link>
+       </Link> 
       
       <Portal>
           <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modalStyle}>
