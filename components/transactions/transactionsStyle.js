@@ -1,9 +1,9 @@
 export const styles = { 
     container: {
         flex: 1,
-        maxHeight: "60%",
         borderRadius:10,
-        width: "90%"
+        width: "90%",
+        height : "100%"
       },
       title: {
         color: "#E6AF2E",
@@ -26,6 +26,8 @@ export const styles = {
         fontSize: 18,
         fontWeight: "bold",
         paddingHorizontal: 15,
+        width : "20%",
+        textAlign: "center",
       },
       sellPrice: {
         fontSize: 18,
@@ -56,6 +58,8 @@ export const styles = {
         fontWeight: "bold",
         color:"#E6AF2E",
         marginVertical: 5,
+        width : "20%",
+        textAlign: "center",
       },
       showMore: {
         fontSize: 18,

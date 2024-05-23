@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Swiper from 'react-native-swiper';
 import COLORS from '../../constants/colors';
 import { changeOrientaionToPortrait, changeOrientationToLandscape } from '../../utils/screenOrientaion.util';
@@ -14,7 +14,7 @@ export default function transactions() {
     changeOrientationToLandscape();
     return () => changeOrientaionToPortrait();
   }, []);
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <AppBar />

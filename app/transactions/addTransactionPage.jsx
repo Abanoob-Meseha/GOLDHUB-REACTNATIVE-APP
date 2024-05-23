@@ -8,7 +8,7 @@ export default function dashboardLanding() {
   return (
     <View style={styles.container}>
             <AddTransaction />
-            <TransactionsFooter index = "1" />
+            {/* <TransactionsFooter index = "1" /> */}
     </View>
   )
 }

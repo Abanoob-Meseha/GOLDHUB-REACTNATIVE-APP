@@ -1,112 +1,78 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { Text, View, FlatList } from 'react-native';
 import { styles } from "./transactionsStyle";
+import TransactionsFooter from '../transactionsfooter/transactionsFooter'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Transactions() {
-  const data = [
-    {
-      id: "transaction1",
-      name: "1حماده",
-      price: "1000$",
-      date: "12/12/2011",
-      type: "buy"
-    },
-    {
-      id: "transaction2235",
-      name: "2حماده",
-      price: "2000$",
-      date: "12/12/2012",
-      type: "sell"
-    },
-    {
-      id: "transaction332",
-      name: "3حماده",
-      price: "3000$",
-      date: "12/12/2013",
-      type: "sell"
-    },
-    {
-        id: "transaction244",
-        name: "4حماده",
-        price: "2000$",
-        date: "12/12/2012",
-        type: "buy"
-      },
-      {
-        id: "transaction33",
-        name: "5حماده",
-        price: "2000$",
-        date: "12/12/2012",
-        type: "sell"
-      },
-      {
-        id: "transaction336",
-        name: "6حماده",
-        price: "2000$",
-        date: "12/12/2012",
-        type: "buy"
-      },
-      {
-        id: "transaction33433",
-        name: "7حماده",
-        price: "2000$",
-        date: "12/12/2012",
-        type: "buy"
-      },
-      {
-        id: "transaction3312",
-        name: "8حماده",
-        price: "2000$",
-        date: "12/12/2012",
-        type: "buy"
-      },
-      {
-        id: "transaction3323",
-        name: "9حماده",
-        price: "2000$",
-        date: "12/12/2012",
-        type: "buy"
-      },
-  ];
+  const [data, setData] = useState([]);
+  const getTransactions = async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys();
+      const result = await AsyncStorage.multiGet(keys);
 
-  const renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <Text style={styles.cardTitle}>{item.date}</Text>
-      {item.type == "sell" ?
-      <Text style={styles.sellPrice}>{item.price}</Text>
-      :
-      <Text style={styles.buyPrice}>{item.price}</Text>
+      const transactions = [];
+      result.forEach(([key, value]) => {
+        if (value) {
+          try {
+            const parsedValue = JSON.parse(value);
+            transactions.push(parsedValue);
+          } catch (e) {
+            console.log(`Error parsing value for key ${key}:`, e);
+          }
+        } else {
+          console.log(`No value found for key ${key}`);
+        }
+      });
+
+      return transactions;
+    } catch (err) {
+      console.log('Problem getting the transactions', err);
+      return [];
     }
-      <Text style={styles.cardTitle}>{item.name}</Text>
-    </View>
-  );
+  };
+
+  const fetchData = async () => {
+    const transactions = await getTransactions();
+    setData(transactions);
+    console.log(transactions);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const renderItem = ({ item }) => {
+    if (item.transactionNumber) {
+      return (
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>{item.totalCash}</Text>
+          <Text style={styles.cardTitle}>{item.transactionValue}</Text>
+          <Text style={styles.cardTitle}>{item.treasury}</Text>
+          <Text style={styles.cardTitle}>{item.clientCode}</Text>
+          <Text style={styles.cardTitle}>{item.transactionNumber}</Text>
+        </View>
+      );
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.transactionsTitle}>
-        <Text style={styles.txt}>
-        رقم الحركه
-        </Text>
-        <Text style={styles.txt}>
-        العميل
-        </Text>
-        <Text style={styles.txt}>
-        الخزنه
-        </Text>
-        <Text style={styles.txt}>
-        قيمة الحركه
-        </Text>
-        <Text style={styles.txt}>
-        اجمالى النقديه
-        </Text>
+        <Text style={styles.txt}>اجمالى النقديه</Text>
+        <Text style={styles.txt}>قيمة الحركه</Text>
+        <Text style={styles.txt}>الخزنه</Text>
+        <Text style={styles.txt}>العميل</Text>
+        <Text style={styles.txt}>رقم الحركه</Text>
       </View>
       <FlatList
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => index.toString()}
         style={styles.flatList}
         scrollEnabled
       />
+      <TransactionsFooter index={0} />
     </View>
   );
 }

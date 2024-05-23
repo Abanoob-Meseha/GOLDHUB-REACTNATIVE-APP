@@ -4,9 +4,8 @@ export const styles = {
         // justifyContent: "space-around",
         alignItems: "center",
         width: "100%",
-        height: "65%",
+        height: "100%",
         backgroundColor: '#D9D9D9',
-        // paddingHorizontal: 20, 
         gap:10
       },
       row:{
@@ -28,6 +27,7 @@ export const styles = {
         borderWidth: 1,
         borderRadius: 7,
         paddingHorizontal: 2,
+        color: "black"
     },
     normalInput: {
       width: "100%",
@@ -37,6 +37,7 @@ export const styles = {
       borderWidth: 1,
       borderRadius: 7,
       paddingHorizontal: 2,
+      color: "black"
     },
     dropdown: {
       width: '100%',

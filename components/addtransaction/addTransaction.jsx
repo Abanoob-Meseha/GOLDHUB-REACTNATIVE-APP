@@ -3,6 +3,8 @@ import { View, TextInput } from "react-native";
 import { styles } from "./addTransactionStyle";
 import { Dropdown } from 'react-native-element-dropdown';
 import {client , outPrice, moveTypes} from '../../data/basicData.json'
+import TransactionsFooter from '../transactionsfooter/transactionsFooter'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function addTransaction(props) {
   const [treasury , setTtreasury ] = useState(false);
@@ -25,9 +27,8 @@ export default function addTransaction(props) {
       console.log('Problem saving the user', err);
     }
   };
-const handleClientSave = async () => {
-  setLoading(true);
-  const user = {
+const handleTransactionSave = async () => {
+  const transaction = {
     treasury,
     clientCode,
     moveType,
@@ -40,8 +41,7 @@ const handleClientSave = async () => {
     priceAsGold,
     totalCash
   };
-  await saveClient(clientName, user);
-  setLoading(false);
+  await saveClient(treasury, transaction);
 };
   return (
     <View style={styles.container}>
@@ -177,6 +177,7 @@ const handleClientSave = async () => {
         />
         </View>
       </View>
+    <TransactionsFooter index ={1} handleTransactionSave = { handleTransactionSave}/>
     </View>
   );
 }
