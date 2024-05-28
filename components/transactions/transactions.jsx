@@ -53,8 +53,6 @@ export default function Transactions(props) {
           <Text style={styles.cardTitle}>{item.treasury}</Text>
           <Text style={styles.cardTitle}>{item.clientCode}</Text>
           <Text style={styles.cardTitle}>{item.transactionNumber}</Text>
-          <Text style={styles.cardTitle}>{item.clientName}</Text>
-        
         </View>
       );
     }
