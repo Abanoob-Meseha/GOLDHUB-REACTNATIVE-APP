@@ -30,7 +30,7 @@ export default function register() {
         password
       }
       userRegisterOnline(formData).then((savedUser)=>{
-        saveUserOffline(savedUser.id, savedUser);
+        saveUserOffline(savedUser.id, formData);
         Toast.show({
           type: 'success',
           text1: 'GOLDHUB TEAM',
