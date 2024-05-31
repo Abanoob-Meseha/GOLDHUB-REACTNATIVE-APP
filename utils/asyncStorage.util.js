@@ -1,13 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const saveUser = ( userId , user)=>{
+export const saveUserOffline = ( userId , user)=>{
     AsyncStorage.setItem( userId, JSON.stringify(user) ).then(()=>{
-        console.log("Saved user" , user);
+        console.log("Offline Saved user" , user);
     }).catch((err)=>{
         console.log('problem saving the user' , err)
     })
 }
-const getUser = (userId)=>{
+export const getUserOffline = (userId)=>{
     AsyncStorage.getItem(userId).then((user)=>{
         console.log("user Retrieved sucessfully" , user)
         return user?JSON.parse(user):null;
@@ -15,7 +15,7 @@ const getUser = (userId)=>{
         console.log('problem getting the user' , err)
     })
 }
-const signOutUser = (userId)=>{
+export const signOutUserOffline = (userId)=>{
     AsyncStorage.getItem(userId).then((user)=>{
         if (user){
             let userObject = JSON.parse(user);
@@ -27,5 +27,4 @@ const signOutUser = (userId)=>{
     })
 }
 
-module.exports = {getUser , saveUser , signOutUser}
 
