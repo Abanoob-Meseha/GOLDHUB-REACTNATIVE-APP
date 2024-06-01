@@ -34,21 +34,23 @@ export const verifyUserOffline = async (email, password) => {
 }
 //-------------------------------------------------------------------
 export const saveUserOffline = ( userId , user)=>{
-    AsyncStorage.setItem( userId, JSON.stringify(user) ).then(()=>{
-        console.log("Offline Saved user" , user);
+    AsyncStorage.setItem( "user", JSON.stringify({...user , id:userId}) ).then(()=>{
+        console.log("Offline Saved user" , {...user , id:userId});
     }).then(()=>{
         saveUserCredentialsOffline(`${user.brand}@gmail.com` , user.password)
     }).catch((err)=>{
         console.log('problem saving the user' , err)
     })
 }
-export const getUserOffline = (userId)=>{
-    AsyncStorage.getItem(userId).then((user)=>{
-        console.log("user Retrieved sucessfully" , user)
-        return user?JSON.parse(user):null;
-    }).catch((err)=>{
-        console.log('problem getting the user' , err)
-    })
+export const getUserOffline = async ()=>{
+  try {
+    let user = await AsyncStorage.getItem("user")
+    console.log("user Retrieved sucessfully" , user)
+    return user?JSON.parse(user):null;
+  } catch (error) {
+    console.log('problem getting the user' , err)
+
+  }
 }
 export const signOutUserOffline = (userId)=>{
     AsyncStorage.getItem(userId).then((user)=>{
@@ -84,3 +86,30 @@ export const getUsersOffline = async () => {
       return {};
     }
   };
+
+  // ----------------------------Update or Add Proprety Of any Async key
+  const updateProperty = async (key, property, value) => {
+    try {
+      // Step 1: Retrieve the object from AsyncStorage
+      const jsonValue = await AsyncStorage.getItem(key);
+      if (jsonValue !== null) {
+        // Step 2: Parse the object from JSON
+        let obj = JSON.parse(jsonValue);
+  
+        // Step 3: Update the specific property
+        obj[property] = value;
+  
+        // Step 4: Convert the updated object back to a JSON string
+        const updatedJsonValue = JSON.stringify(obj);
+  
+        // Step 5: Save the updated object back to AsyncStorage
+        await AsyncStorage.setItem(key, updatedJsonValue);
+  
+        console.log('Property updated successfully');
+      } else {
+        console.log('Object not found');
+      }
+    } catch (e) {
+      console.error('Failed to update property', e);
+    }
+};

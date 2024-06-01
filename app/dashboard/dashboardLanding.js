@@ -5,21 +5,13 @@ import DashboardLanding from '../../components/dashboardlanding/dashboardLanding
 export default function dashboardLanding() {
     
   return (
-    <View style={styles.container}>
-        <View style={styles.fingerprintContainer}>
-            <DashboardLanding />
-        </View>
-    </View>
+    <>
+    <DashboardLanding />
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:COLORS.darkBlue,
-        alignContent: "center",
-        alignItems:'center',
-    },
     title:{
         color:COLORS.Gold,
         shadowColor:'black',

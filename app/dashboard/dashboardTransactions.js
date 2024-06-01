@@ -5,22 +5,15 @@ import Transactions from '../../components/dashboardtransactions/transactions'
 
 export default function dashboardTransactions() {
   return (
-    <View style={styles.container}>
-        <View style={styles.fingerprintContainer}>
-        <AvgGramPrice />
-        <Transactions />
-        </View>
-    </View>
+    <>
+    <AvgGramPrice />
+    <Transactions />
+    </>          
   )
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:COLORS.darkBlue,
-        alignContent: "center",
-        alignItems:'center',
-    },
+   
     title:{
         color:COLORS.Gold,
         shadowColor:'black',

@@ -1,14 +1,18 @@
 import React from "react";
 import { Text, View, Image } from 'react-native';
 import { styles } from "./navbarStyle";
-export default function Navbar() {
-  let storeName = "GoldHub";
+import { Avatar } from "react-native-paper";
+import { Link } from "expo-router";
+
+export default function Navbar({imgUrl , brand}) {
   
   return (
     <View style={styles.container}>
-      <Image source={require('../../assets/images/navbar-img.png')} style={styles.image} />
+      <Link href={'/dashboard'} asChild>
+        <Avatar.Image size={55} source={require('../../assets/images/AVATAR.png')} />      
+      </Link>      
       <Text style={styles.title}>
-        {storeName}
+        {brand}
       </Text>
       <Image source={require('../../assets/images/settings.png')} style={styles.image} />
     </View>

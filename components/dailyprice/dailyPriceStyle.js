@@ -1,3 +1,4 @@
+import {colors} from '../../constants/theme.json'
 export const styles = {
     container: {
         flexDirection: "column",
@@ -13,7 +14,7 @@ export const styles = {
     box: {
         width: "90%",
         minHeight: 80,
-        backgroundColor: "#E6AF2E",
+        backgroundColor: colors.primary,
         marginVertical: 2,
         borderColor: "#fff",
         borderWidth: 3,
@@ -22,42 +23,19 @@ export const styles = {
         justifyContent: "center"
     },
     inputContainer: {
+        paddingHorizontal:'10%',
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         width: "100%",
         paddingHorizontal: 10,
         // marginTop: 5,
     },
-    inputWrapper: {
-        flex: 1,
-        marginHorizontal: 5,
-        flexDirection: "column",
-        alignItems:"center",
-        // justifyContent: "center"
-    },
-    buyInput: {
-        width: "100%",
-        height: 40,
-        backgroundColor: "#ffffff",
-        borderColor: "#10BC02",
-        borderWidth: 4,
-        borderRadius: 7,
-        paddingHorizontal: 10,
-    },
-    sellInput: {
-        width: "100%",
-        height: 40,
-        backgroundColor: "#ffffff",
-        borderColor: "#FF0404",
-        borderWidth: 4,
-        borderRadius: 7,
-        paddingHorizontal: 10,
-    },
-    inputTitle:{
+    input:{
+        width:"40%",
         fontSize:20,
-        fontWeight:"bold",
-        color: "#000000"
+        marginBottom:5,
     },
+    
     borderLessInput: {
         width: "100%",
         height: 40,
