@@ -1,7 +1,7 @@
-import { useEffect , useState} from 'react';
-import { StyleSheet, ScrollView, View ,Text, FlatList } from 'react-native';
+import { StyleSheet, View ,Text, FlatList } from 'react-native';
 import {colors} from '../../constants/theme.json'
 import Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
+import SearchFilterModal from '../../components/searchFilterDrawer/searchFilterModal';
 
 export default function AllClients({clients}) {
 
@@ -34,17 +34,13 @@ const renderItem = ({ item }) => (
         <Icon name='account' size={30} color={colors.secondary}/>  
         <Icon name='qrcode-scan' size={30} color={colors.secondary}/>
       </View>
-      {/* <ScrollView contentContainerStyle={styles.form}>
-        <View style={styles.row}>
-        </View>
-      </ScrollView> */}
       <FlatList
         data={clients}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
-        style={styles.flatList}
         scrollEnabled
       />
+      <SearchFilterModal ArrayToSearch={[...clients]}/> 
     </View>
   )
 }

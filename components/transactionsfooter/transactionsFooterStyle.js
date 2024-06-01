@@ -8,7 +8,7 @@ export const styles = {
       },
       addTransactionBtn:{
         width:'30%',
-        height:"80%",
+        height:"100%",
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor:"#10BC02",
@@ -18,7 +18,7 @@ export const styles = {
       },
       deleteTransactions:{
         width:'30%',
-        height:"80%",
+        height:"100%",
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor:"#FF0404",
