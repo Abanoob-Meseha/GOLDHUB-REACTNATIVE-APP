@@ -28,6 +28,7 @@
         {"moveType":"عيار 22" , "operator":0.916},
         {"moveType":"عيار 9999" , "operator":0.9999},
         {"moveType":"عيار 9999 شركات" , "operator":0.9999},
+        {"moveType":"سبائك - عيارات مختلفة" , "operator":0},
         {"moveType":"نقدية" , "operator":1},
         {"moveType":"نقد اجنبي" , "operator":50},
         {"moveType":"عيار 15" , "operator":1},

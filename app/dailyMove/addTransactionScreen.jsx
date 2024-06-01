@@ -3,12 +3,11 @@ import COLORS from '../../constants/colors'
 import AddTransaction from '../../components/addtransaction/addTransaction'
 import TransactionsFooter from '../../components/transactionsfooter/transactionsFooter'
 
-export default function dashboardLanding() {
+export default function AddTransactionScreen() {
     
   return (
     <View style={styles.container}>
-            <AddTransaction />
-            {/* <TransactionsFooter index = "1" /> */}
+        <AddTransaction />
     </View>
   )
 }
@@ -16,7 +15,7 @@ export default function dashboardLanding() {
 const styles = StyleSheet.create({
     container:{
         width: "100%",
-        height:"100%",
+        height:100,
         backgroundColor:COLORS.darkBlue,
         alignContent: "center",
         alignItems:'center',

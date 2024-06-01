@@ -8,7 +8,6 @@ export default function allTransactions(props) {
   return (
     <View style={styles.container}>
       <Transactions reload = {reload}/>
-      {/* <TransactionsFooter index = "0"/> */}
     </View>
   )
 }

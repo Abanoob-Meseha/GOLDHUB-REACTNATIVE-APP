@@ -1,20 +1,12 @@
 import { useEffect , useState} from 'react';
 import { StyleSheet, ScrollView, View ,Text } from 'react-native'
-import {changeOrientaionToPortrait , changeOrientationToLandscape} from '../../utils/screenOrientaion.util'
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AppBar from '../../components/appBar/appBar';
 import { TextInput , Button } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown';
 import {colors} from '../../constants/theme.json'
 import {client , outPrice} from '../../data/basicData.json'
 import { Link } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-export default function index() {
-  
-  useEffect(() => {
-    changeOrientationToLandscape()
-    return(()=>changeOrientaionToPortrait() )   
-  }, []);
+export default function AddClient() {
   // do not forget the date it should saved with every deal as global
   const [loading , setLoading]= useState(false);
   const [id, setId] = useState('');
@@ -55,8 +47,6 @@ export default function index() {
     setLoading(false);
   };
   return (
-    <SafeAreaView style={styles.container}>
-      <AppBar/>
       <View style={styles.screenContent}>
         <ScrollView contentContainerStyle={styles.form}>
           <View style={styles.row}>
@@ -179,16 +169,12 @@ export default function index() {
           
         </ScrollView>
       </View>
-    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  container:{
-    backgroundColor:'black',
-    flex:1
-  },
   screenContent:{
+    flex:1,
     justifyContent:'center',
   },
   form:{

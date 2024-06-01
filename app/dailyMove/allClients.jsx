@@ -6,13 +6,8 @@ import AppBar from '../../components/appBar/appBar';
 import {colors} from '../../constants/theme.json'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function index() {
+export default function AllClients() {
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    changeOrientationToLandscape()
-    return(()=>changeOrientaionToPortrait() )   
-  }, []);
 
   const getClient = async () => {
     try {
@@ -59,9 +54,7 @@ const renderItem = ({ item }) => (
 );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <AppBar/>
-      <View style={styles.screenContent}>
+    <View style={styles.screenContent}>
         <ScrollView contentContainerStyle={styles.form}>
           <View style={styles.row}>
           </View>
@@ -73,17 +66,13 @@ const renderItem = ({ item }) => (
       style={styles.flatList}
       scrollEnabled
     />
-      </View>
-    </SafeAreaView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container:{
-    backgroundColor:'black',
-    flex:1
-  },
   screenContent:{
+    flex:1,
     justifyContent:'center',
   },
   form:{

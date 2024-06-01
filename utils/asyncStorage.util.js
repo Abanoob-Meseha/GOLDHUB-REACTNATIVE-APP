@@ -88,7 +88,7 @@ export const getUsersOffline = async () => {
   };
 
   // ----------------------------Update or Add Proprety Of any Async key
-  const updateProperty = async (key, property, value) => {
+export const updateProperty = async (key, property, value) => {
     try {
       // Step 1: Retrieve the object from AsyncStorage
       const jsonValue = await AsyncStorage.getItem(key);
