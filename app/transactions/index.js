@@ -10,18 +10,22 @@ import AppBar from '../../components/appBar/appBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function transactions() {
+  const [reload, setReload] = useState(false)
   useEffect(() => {
     changeOrientationToLandscape();
     return () => changeOrientaionToPortrait();
   }, []);
-  
+  const handleIndexChanged = (index) => {
+    setReload(!reload);
+    console.log("Current value of 'reload':", reload);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <AppBar />
       {/* <TransactionsNavbar /> */}
-      <Swiper loop={false} showsPagination={true} index={0} >  
+      <Swiper loop={false} showsPagination={true} index={0} onIndexChanged={handleIndexChanged}>  
         <AddTransaction />  
-        <AllTransactions />  
+        <AllTransactions reload = {reload}/>  
       </Swiper>
     </SafeAreaView>
   );

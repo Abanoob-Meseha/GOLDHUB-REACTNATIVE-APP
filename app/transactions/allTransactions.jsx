@@ -3,11 +3,11 @@ import COLORS from '../../constants/colors'
 import AddTransaction from '../../components/addtransaction/addTransaction'
 import TransactionsFooter from '../../components/transactionsfooter/transactionsFooter'
 import Transactions from '../../components/transactions/transactions'
-export default function allTransactions() {
-    
+export default function allTransactions(props) {
+    let {reload} = props
   return (
     <View style={styles.container}>
-      <Transactions/>
+      <Transactions reload = {reload}/>
       {/* <TransactionsFooter index = "0"/> */}
     </View>
   )

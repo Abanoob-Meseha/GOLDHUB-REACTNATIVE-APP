@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Platform } from 'react-native';
+import { StyleSheet, View, Text, Alert } from 'react-native';
 import { Modal, Portal, TextInput, Checkbox, Button, ActivityIndicator } from 'react-native-paper';
 import { useState } from 'react';
 import COLORS from '../../constants/colors';
@@ -10,9 +10,9 @@ import { getUsersOffline, verifyUserOffline } from '../../utils/asyncStorage.uti
 import Toast from 'react-native-toast-message'
 
 export default function Index() {
-  const [brand, setBrand] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [brand, setBrand] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState(null);
   const [fingerprint, setFingerprint] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
   const [checked, setChecked] = useState(false);
@@ -58,6 +58,7 @@ export default function Index() {
   const handleLogin = async () => {
     const isValid = await verifyUserOffline(`${brand}@gmail.com`, password);
     setIsLoginValid(isValid);
+
     if (!isValid) {
       console.log('Login invalid, stay on the same page.');
       Toast.show({

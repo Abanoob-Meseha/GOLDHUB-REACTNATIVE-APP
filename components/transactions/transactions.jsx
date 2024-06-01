@@ -4,46 +4,48 @@ import { styles } from "./transactionsStyle";
 import TransactionsFooter from '../transactionsfooter/transactionsFooter'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Transactions() {
+export default function Transactions(props) {
+  let {reload} = props
   const [data, setData] = useState([]);
+  
   const getTransactions = async () => {
     try {
       const keys = await AsyncStorage.getAllKeys();
       const result = await AsyncStorage.multiGet(keys);
-
-      const transactions = [];
+  
+      const transaction= {};
       result.forEach(([key, value]) => {
         if (value) {
           try {
-            const parsedValue = JSON.parse(value);
-            transactions.push(parsedValue);
+            transaction[key] = JSON.parse(value);
           } catch (e) {
             console.log(`Error parsing value for key ${key}:`, e);
           }
         } else {
-          console.log(`No value found for key ${key}`);
+          transaction[key] = value; 
         }
       });
-
-      return transactions;
+      // console.log("transaction", transaction);
+      return transaction;
     } catch (err) {
-      console.log('Problem getting the transactions', err);
-      return [];
+      console.log('Problem getting the transaction', err);
+      return {};
     }
   };
-
-  const fetchData = async () => {
-    const transactions = await getTransactions();
-    setData(transactions);
-    console.log(transactions);
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      const transaction= await getTransactions();
+      const transactionsArray = Object.values(transaction);
+      setData(transactionsArray);
+      // console.log("Dataaaaaa",data);
+    };
     fetchData();
-  }, []);
+  }, [reload]);
+
 
   const renderItem = ({ item }) => {
     if (item.transactionNumber) {
+      // console.log("itemmmmmmmmm",item);
       return (
         <View style={styles.card}>
           <Text style={styles.cardTitle}>{item.totalCash}</Text>
@@ -54,7 +56,11 @@ export default function Transactions() {
         </View>
       );
     }
+      
   };
+  
+  
+  
 
   return (
     <View style={styles.container}>
