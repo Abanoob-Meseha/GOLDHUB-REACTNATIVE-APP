@@ -57,10 +57,10 @@ export default function dailyPrice() {
                 سعر الدهـــب
             </Text>
             <View style={styles.inputContainer}>
-                <TextInput mode='outlined' label={'شراء'} style={styles.input} outlineStyle={{borderColor:'green' , borderWidth:3}} 
+                <TextInput keyboardType="number-pad" mode='outlined' label={'شراء'} style={styles.input} outlineStyle={{borderColor:'green' , borderWidth:3}} 
                 value={goldSell}
                 onChangeText={(goldSell)=>setGoldSell(goldSell)}/>
-                <TextInput mode='outlined' label={'بيع'} style={styles.input} outlineStyle={{borderColor:'darkred' , borderWidth:3}}
+                <TextInput keyboardType="number-pad" mode='outlined' label={'بيع'} style={styles.input} outlineStyle={{borderColor:'darkred' , borderWidth:3}}
                 value={goldBuy}
                 onChangeText={(goldBuy)=>setGoldBuy(goldBuy)}/>
             </View>
@@ -71,10 +71,10 @@ export default function dailyPrice() {
                 سعرالدولار
             </Text>
             <View style={styles.inputContainer}>
-                <TextInput mode='outlined' label={'شراء'} style={styles.input} outlineStyle={{borderColor:'green' , borderWidth:3}}
+                <TextInput keyboardType="number-pad"  mode='outlined' label={'شراء'} style={styles.input} outlineStyle={{borderColor:'green' , borderWidth:3}}
                 value={dollarBuy}
                 onChangeText={(dollarBuy)=>setDollarBuy(dollarBuy)}/>
-                <TextInput mode='outlined' label={'بيع'} style={styles.input} outlineStyle={{borderColor:'darkred' , borderWidth:3}}
+                <TextInput keyboardType="number-pad" mode='outlined' label={'بيع'} style={styles.input} outlineStyle={{borderColor:'darkred' , borderWidth:3}}
                 value={dollarSell}
                 onChangeText={(dollarSell)=>setDollarSell(dollarSell)}/>
             </View>
@@ -83,7 +83,7 @@ export default function dailyPrice() {
             <Text style={styles.title}>
                 سعر الوقيه
             </Text>
-            <TextInput mode='outlined' label={'شراء'} style={styles.input} 
+            <TextInput keyboardType="number-pad" mode='outlined' label={'شراء'} style={styles.input} 
             value={ounceSell}
             onChangeText={(ounceSell)=>setOunceSell(ounceSell)}/>
             <Button icon="update" buttonColor={colors.background} mode="contained" onPress={handleUpdatePrices}>
