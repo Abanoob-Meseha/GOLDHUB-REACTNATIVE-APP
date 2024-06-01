@@ -9,15 +9,21 @@ import AppBar from '../../components/appBar/appBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AddClient from './addClient';
 import AllClients from './allClients';
-import useStore from '../../zustand/useStore';
+import { getClientsOffline } from '../../utils/asyncStorage.util';
+import  useStore  from '../../zustand/useStore';
 
 export default function transactions() {
   const [reload, setReload] = useState(false)
   const appBarIndex = useStore((state)=>state.appBarIndex)
   const setAppBarIndex = useStore((state)=>state.setAppBarIndex)
+  const clients = useStore((state)=>state.clients);
+  const setClients = useStore((state)=>state.setClients);
 
   useEffect(() => {
     changeOrientationToLandscape();
+    getClientsOffline().then((clientsArray)=>{
+      setClients(clientsArray)
+    })
     return () => changeOrientaionToPortrait();
   }, []);
   
@@ -25,10 +31,9 @@ export default function transactions() {
     <SafeAreaView style={styles.container}>
       <AppBar />
       <Swiper style={styles.wrapper} loop={false} showsPagination={true} 
-        index={appBarIndex} onIndexChanged={(index)=>setAppBarIndex(index)}
-      >  
-        <AllClients/>  
-        <AddClient/>
+        index={appBarIndex} onIndexChanged={(index)=>setAppBarIndex(index)}>  
+        <AllClients clients={[...clients]}/>  
+        <AddClient clients={[...clients]}/>
         <AddTransactionScreen />  
         <AllTransactions reload = {reload}/>
       </Swiper>

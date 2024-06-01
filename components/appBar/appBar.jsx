@@ -42,7 +42,7 @@ export default function AppBar() {
         </View>
         <Text style={styles.dateText}> {`${day} / ${month} / ${year}`} </Text>
         <View style={styles.actionBar}>
-          <IconButton size={30} icon="camera" />
+          <IconButton size={30} icon="camera" iconColor={'grey'}/>
           <IconButton size={30} icon="account-search" iconColor={appBarIndex==0?colors.primary:'grey'} onPress={()=>setAppBarIndex(0)}/>
           <IconButton size={30} icon="account-plus" iconColor={appBarIndex==1?colors.primary:'grey'} onPress={()=>setAppBarIndex(1)}/>          
           <IconButton size={30} icon="plus-circle" iconColor={appBarIndex==2?colors.primary:'grey'} onPress={()=>setAppBarIndex(2)}/>          

@@ -1,71 +1,50 @@
 import { useEffect , useState} from 'react';
-import { StyleSheet, ScrollView, View ,Text, FlatList } from 'react-native'
-import {changeOrientaionToPortrait , changeOrientationToLandscape} from '../../utils/screenOrientaion.util'
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AppBar from '../../components/appBar/appBar';
+import { StyleSheet, ScrollView, View ,Text, FlatList } from 'react-native';
 import {colors} from '../../constants/theme.json'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default function AllClients() {
-  const [data, setData] = useState([]);
-
-  const getClient = async () => {
-    try {
-      const keys = await AsyncStorage.getAllKeys();
-      const result = await AsyncStorage.multiGet(keys);
-  
-      const user = {};
-      result.forEach(([key, value]) => {
-        if (value) {
-          try {
-            user[key] = JSON.parse(value);
-          } catch (e) {
-            console.log(`Error parsing value for key ${key}:`, e);
-          }
-        } else {
-          user[key] = value; 
-        }
-      });
-  
-      return user;
-    } catch (err) {
-      console.log('Problem getting the user', err);
-      return {};
-    }
-  };
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      const user = await getClient();
-      const userArray = Object.values(user);
-      setData(userArray);
-    };
-    fetchData();
-  }, []);
+export default function AllClients({clients}) {
 
 const renderItem = ({ item }) => (
   <View style={styles.card}>
-    <Text style={styles.cardTitle}>{item.creditLimitGold}</Text>
-    <Text style={styles.cardTitle}>{item.creditLimitMoney}</Text>
-    <Text style={styles.cardTitle}>{item.phone}</Text>
-    <Text style={styles.sellPrice}>{item.clientName}</Text>
-    <Text style={styles.cardTitle}>{item.id}</Text>
+    <Text style={styles.cardTitle}>
+      {item.initialGold}
+    </Text>
+    <Text style={styles.cardTitle}>
+      {item.initialMoney}
+    </Text>
+    <Text style={styles.cardTitle}>
+      {item.phone}
+    </Text>
+    <Text style={styles.sellPrice}>
+      {item.name}
+    </Text>
+    <Text style={styles.cardTitle}>
+      {item.id}
+    </Text>
   </View>
 );
 
   return (
     <View style={styles.screenContent}>
-        <ScrollView contentContainerStyle={styles.form}>
-          <View style={styles.row}>
-          </View>
-        </ScrollView>
-        <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item, index) => index.toString()}
-      style={styles.flatList}
-      scrollEnabled
-    />
+      <View style={styles.tableHeader}>
+        <Icon name='gold' size={20} color={colors.secondary}/>
+        <Icon name='account-cash' size={30} color={colors.secondary}/>
+        <Icon name='phone' size={30} color={colors.secondary}/>  
+        <Icon name='account' size={30} color={colors.secondary}/>  
+        <Icon name='qrcode-scan' size={30} color={colors.secondary}/>
+      </View>
+      {/* <ScrollView contentContainerStyle={styles.form}>
+        <View style={styles.row}>
+        </View>
+      </ScrollView> */}
+      <FlatList
+        data={clients}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+        style={styles.flatList}
+        scrollEnabled
+      />
     </View>
   )
 }
@@ -74,6 +53,18 @@ const styles = StyleSheet.create({
   screenContent:{
     flex:1,
     justifyContent:'center',
+  },
+  tableHeader:{
+    display:'flex',
+    flexDirection:'row',
+    width:'90%',
+    marginHorizontal:'auto',
+    paddingVertical:'1%',
+    paddingHorizontal:'3%',
+    borderRadius:15,
+    backgroundColor:colors.primary,
+    alignItems:'center',
+    justifyContent:'space-between'
   },
   form:{
     paddingHorizontal:'1%',
@@ -109,8 +100,9 @@ const styles = StyleSheet.create({
     fontWeight:'bold'
   },
   card: {
-    backgroundColor: "#D9D9D9",
-    width: "100%",
+    marginHorizontal:'auto',
+    backgroundColor: colors.secondary,
+    width: "90%",
     aspectRatio: 10,
     alignItems: "center",
     justifyContent: "space-between",
@@ -125,6 +117,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     paddingHorizontal: 15,
+    color:'black'
   },
   sellPrice: {
     fontSize: 18,

@@ -6,8 +6,10 @@ import auth from '../firebase.config'
 const useStore = create((set) => ({
     user: null,
     setUser: (user) => set({ user }),
+
     date: null,
     setDate: (data) => set({ data }),
+
     goldBuy:0,
     goldSell:0,
     setGoldBuy: (goldBuy) => set({ goldBuy }),
@@ -18,8 +20,12 @@ const useStore = create((set) => ({
     setDollarSell: (dollarSell) => set({ dollarSell }),
     ounceSell: 0,
     setOunceSell: (ounceSell) => set({ ounceSell }),
+
     appBarIndex: 2,
     setAppBarIndex: (index) => set({ appBarIndex: index }),
+
+    clients : [],
+    setClients: (dataArray) => set({clients:[...dataArray]}),
   }));
 
 export default useStore;

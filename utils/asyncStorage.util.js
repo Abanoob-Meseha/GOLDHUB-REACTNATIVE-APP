@@ -113,3 +113,59 @@ export const updateProperty = async (key, property, value) => {
       console.error('Failed to update property', e);
     }
 };
+
+export const pushToArray = async (key, newItem) => {
+  try {
+    // Step 1: Retrieve the array from AsyncStorage
+    const jsonValue = await AsyncStorage.getItem(key);
+    let array = [];
+
+    if (jsonValue !== null) {
+      // Step 2: Parse the array from JSON
+      array = JSON.parse(jsonValue);
+    }
+
+    // Step 3: Add the new item to the array
+    array.push(newItem);
+
+    // Step 4: Convert the updated array back to a JSON string
+    const updatedJsonValue = JSON.stringify(array);
+
+    // Step 5: Save the updated array back to AsyncStorage
+    await AsyncStorage.setItem(key, updatedJsonValue);
+
+    console.log('Item added to array successfully');
+  } catch (e) {
+    console.error('Failed to add item to array', e);
+  }
+};
+
+
+// ------------------------------Client Functions
+export const saveClientOffline = async (client) => {
+  try {
+    await pushToArray("clients",client);
+    console.log("Saved Client", client);
+  } catch (err) {
+    console.log('Problem saving the user', err);
+  }
+};
+export const getClientsOffline = async ()=>{
+  try {
+    let clientsJson = AsyncStorage.getItem("clients")
+    let clientsArray = JSON.parse(clientsJson)
+    console.log("Clients Retrieved Successfully",clientsArray)
+    return(clientsArray)
+  } catch (error) {
+    console.log("Error Getting All Clients" , error)
+  }
+}
+// ------------------------------Deals Functions
+export const saveDealOffline = async (deal)=>{
+  try {
+    await pushToArray("deals",deal);
+    console.log("Saved Client", deal);
+  } catch (err) {
+    console.log('Problem saving the user', err);
+  }
+}

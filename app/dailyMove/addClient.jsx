@@ -5,35 +5,31 @@ import { Dropdown } from 'react-native-element-dropdown';
 import {colors} from '../../constants/theme.json'
 import {client , outPrice} from '../../data/basicData.json'
 import { Link } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-export default function AddClient() {
+import { saveClientOffline } from '../../utils/asyncStorage.util';
+import  useStore  from '../../zustand/useStore';
+
+export default function AddClient({clients}) {
   // do not forget the date it should saved with every deal as global
   const [loading , setLoading]= useState(false);
-  const [id, setId] = useState('');
+  const [id, setId] = useState((clients.length + 1).toString());
   const [clientType, setClientType] = useState(null);
-  const [clientName, setClientName] = useState("");
+  const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [priceType, setPriceType] = useState("");
-  const [creditLimitGold , setCreditLimitGold]= useState("");
-  const [creditLimitMoney , setCreditLimitMoney]= useState("");
-  const [initialMoney , setInitialMoney]= useState("");
-  const [initialGold , setInitialGold]= useState("");
+  const [creditLimitGold , setCreditLimitGold]= useState(0);
+  const [creditLimitMoney , setCreditLimitMoney]= useState(0);
+  const [initialMoney , setInitialMoney]= useState(0);
+  const [initialGold , setInitialGold]= useState(0);
+  const setClients = useStore((state)=>state.setClients);
 
   const clientType_dropmenu = client ;
   const outPrice_dropmenu = outPrice ; 
-    const saveClient = async (userId,user) => {
-      try {
-        await AsyncStorage.setItem(userId, JSON.stringify(user));
-        console.log("Saved user", user);
-      } catch (err) {
-        console.log('Problem saving the user', err);
-      }
-    };
+    
   const handleClientSave = async () => {
     setLoading(true);
-    const user = {
-      clientName,
+    const client = {
+      name,
       phone,
       address,
       priceType,
@@ -43,9 +39,11 @@ export default function AddClient() {
       initialGold,
       id
     };
-    await saveClient(clientName, user);
+    setClients([...clients ,client])
+    await saveClientOffline(client);
     setLoading(false);
   };
+  
   return (
       <View style={styles.screenContent}>
         <ScrollView contentContainerStyle={styles.form}>
@@ -61,9 +59,9 @@ export default function AddClient() {
             <TextInput
               mode='outlined'
               label="اسم المتعامل"
-              value={clientName}
+              value={name}
               style={{width:'30%'}}
-              onChangeText={clientName => setClientName(clientName)}
+              onChangeText={name => setName(name)}
             />
             <Dropdown
               labelField="label"
@@ -94,6 +92,7 @@ export default function AddClient() {
               mode='outlined'
               label="ID"
               value={id}
+              disabled
               style={{width : '10%'}}
               onChangeText={id => setId(id)}
             />
