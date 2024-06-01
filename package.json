@@ -11,6 +11,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",
     "@realm/react": "^0.6.2",
+    "crypto-js": "^4.2.0",
     "expo": "^51.0.2",
     "expo-constants": "~16.0.1",
     "expo-dev-client": "~4.0.13",
@@ -34,7 +35,8 @@
     "react-native-swiper": "^1.6.0",
     "react-native-toast-message": "^2.2.0",
     "react-native-vector-icons": "^10.1.0",
-    "realm": "^12.7.1"
+    "realm": "^12.7.1",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -24,10 +24,20 @@ export const styles = {
         aspectRatio: 1,
         alignItems:"center",
         justifyContent:"center",
+        shadowColor: "#000",
+        borderRadius:15,
+        shadowOffset: {
+          width: 0,
+          height: 7,
+        },
+        shadowOpacity: 0.43,
+        shadowRadius: 9.51,
+        elevation: 15,
       },
       cardTitle:{
         fontSize: 18,
         fontWeight: "bold",
         marginTop: 10,
+        textAlign:'center'
       },
 }

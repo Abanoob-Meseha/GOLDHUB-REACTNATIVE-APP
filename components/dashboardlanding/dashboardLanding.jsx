@@ -13,14 +13,16 @@ export default function dashboardLanding() {
             الجرد
           </Text>
         </View>
-        <Link href={'/transactions'}>
+        
+        <Link href={'/transactions'} asChild>
           <View style ={styles.card}>
-          <Image source={require('../../assets/images/moneyflow.png')} style={styles.image} />
+            <Image source={require('../../assets/images/moneyflow.png')} style={styles.image} />
           <Text style={styles.cardTitle}>
               الحركه الماليه
             </Text>
           </View>
         </Link>
+        
        </View>
        <View style={styles.container}>
        <View style ={styles.card}>

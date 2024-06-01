@@ -1,0 +1,25 @@
+[
+
+    {
+        
+        "displayName": "John Doe",
+        "email": "johndoe@example.com",
+        "profilePicture": "https://example.com/profilePicture.jpg",
+        "createdAt": "firebase.firestore.FieldValue.serverTimestamp()",
+        "lastLogin": "firebase.firestore.FieldValue.serverTimestamp()",
+        "phoneNumber": "+1234567890",
+        "address": {
+            "street": "123 Main St",
+            "city": "Anytown",
+            "state": "Anystate",
+            "zip": "12345",
+            "country": "USA"
+        },
+        "preferences": {
+            "theme": "dark",
+            "language": "en"
+        },
+        "roles": ["user", "admin"],
+        "status": "active"
+    }
+]

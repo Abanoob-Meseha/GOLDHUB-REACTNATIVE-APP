@@ -4,23 +4,14 @@ import DashboardTwo from '../../components/dashboardtwo/dashboardTwo'
 
 export default function dashboardTwo() {
   return (
-    <View style={styles.container}>
-        {/* <Navbar /> */}
-        {/* <DailyPrice /> */}
-        <View style={styles.fingerprintContainer}>
-            <DashboardTwo />
-        </View>
-    </View>
+    <>
+    <DashboardTwo />
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:COLORS.darkBlue,
-        alignContent: "center",
-        alignItems:'center',
-    },
+    
     title:{
         color:COLORS.Gold,
         shadowColor:'black',

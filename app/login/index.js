@@ -6,7 +6,8 @@ import { colors } from "../../constants/theme.json";
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { router, Link } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getUsersOffline, verifyUserOffline } from '../../utils/asyncStorage.util';
+import Toast from 'react-native-toast-message'
 
 export default function Index() {
   const [brand, setBrand] = useState(null);
@@ -16,7 +17,7 @@ export default function Index() {
   const [hidePassword, setHidePassword] = useState(true);
   const [checked, setChecked] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [isLoginValid, setIsLoginValid] = useState(false); // New state to track validation
+  const [isLoginValid, setIsLoginValid] = useState(true); // New state to track validation
 
   const hideModal = () => setVisible(false);
 
@@ -29,65 +30,51 @@ export default function Index() {
       router.replace('/dashboard');
     } else {
       console.log('Authentication failed');
-    }
-  };
-
-  const getUsers = async () => {
-    try {
-      const keys = await AsyncStorage.getAllKeys();
-      const result = await AsyncStorage.multiGet(keys);
-      const user = {};
-      result.forEach(([key, value]) => {
-        if (value) {
-          try {
-            user[key] = JSON.parse(value);
-          } catch (e) {
-            console.log(`Error parsing value for key ${key}:`, e);
-          }
-        } else {
-          user[key] = value;
-        }
+      Toast.show({
+        type: 'error',
+        text1: 'فشل تسجيل الدخول',
+        text2: 'تاكد من ان البيانات المدخلة صحيحة'
       });
-      return user;
-    } catch (err) {
-      console.log('Problem getting the user', err);
-      return {};
     }
   };
 
-  const loginValidation = async () => {
-    let users = await getUsers();
-    const userArray = Object.values(users);
-    const loginData = [brand, username, password];
-    for (let i = 0; i < userArray.length; i++) {
-      const savedUser = [];
-      for (const [key, value] of Object.entries(userArray[i])) {
-        savedUser.push(value);
-      }
-      if (savedUser[0] === loginData[0] && savedUser[1] === loginData[1] && savedUser[4] === loginData[2]) {
-        return true;
-      }
-    }
-    return false;
-  };
+// Login Validation For More than one User on one device
+  // const loginValidation = async () => {
+  //   let users = await getUsersOffline();
+  //   const userArray = Object.values(users);
+  //   const loginData = [brand, username, password];
+  //   for (let i = 0; i < userArray.length; i++) {
+  //     const savedUser = [];
+  //     for (const [key, value] of Object.entries(userArray[i])) {
+  //       savedUser.push(value);
+  //     }
+  //     if (savedUser[0] === loginData[0] && savedUser[1] === loginData[1] && savedUser[4] === loginData[2]) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // };
 
   const handleLogin = async () => {
-    const isValid = await loginValidation();
+    const isValid = await verifyUserOffline(`${brand}@gmail.com`, password);
     setIsLoginValid(isValid);
-    if (!isValid && !brand && !username) {
-      Alert.alert('تأكد من الاسم وكلمة المرور', '', [
-        {text: 'ok', onPress: () => console.log("invalid login")},
-      ])
+
+    if (!isValid) {
+      console.log('Login invalid, stay on the same page.');
+      Toast.show({
+        type: 'error',
+        text1: 'فشل تسجيل الدخول',
+        text2: 'تاكد من ان البيانات المدخلة صحيحة'
+      });
     } else {
-      Alert.alert('تم تسجيل الدخول بنجاح', '', [
-        {text: 'ok', onPress: () => router.push('/dashboard')},
-      ])
-      
+      console.log('Login valid, navigate to dashboard.');
+      router.push('/dashboard');
     }
   };
 
   return (
     <View style={styles.container}>
+      <Toast/>
       <Text style={styles.title}> تسجيل الدخول </Text>
       <View style={styles.form}>
         <TextInput
@@ -129,6 +116,10 @@ export default function Index() {
             }}
           />
         </View>
+        {/* {
+          !isLoginValid? <Text style={styles.errorText}>تاكد ان البيانات المدخلة صحيحة</Text> : null
+
+        } */}
         <Button
           style={styles.loginButton}
           labelStyle={{ fontSize: 20 }}
@@ -139,6 +130,7 @@ export default function Index() {
         >
           تـسجيـــل الـدخـــول
         </Button>
+       
       </View>
       <View style={styles.fingerSectionContainer}>
         <Icon name='fingerprint' size={100} color={colors.primary} />
@@ -215,5 +207,14 @@ const styles = StyleSheet.create({
     fingerSectionContainer:{
       alignItems:'center',
       marginTop:'10%'
+    },
+    errorText:{
+      color:colors.primary,
+      fontSize:20,
+      textAlign:'center',
+      marginTop:5,
+      backgroundColor:'darkred',
+      borderRadius:15,
+      padding:2,
     }
 })

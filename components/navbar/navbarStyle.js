@@ -1,3 +1,4 @@
+import {colors} from '../../constants/theme.json'
 export const styles = { 
     container: {
         flexDirection: "row",
@@ -5,8 +6,9 @@ export const styles = {
         alignItems: "center",
         width: "100%",
         height: 60,
-        backgroundColor: '#D9D9D9',
+        backgroundColor: colors.background,
         paddingHorizontal: 20, 
+        borderRadius:5
       },
       title: {
         color: "#E6AF2E",

@@ -42,7 +42,9 @@ const handleTransactionSave = async () => {
     totalCash
   };
   await saveClient(treasury, transaction);
+  
 };
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
