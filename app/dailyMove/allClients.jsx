@@ -2,8 +2,12 @@ import { StyleSheet, View ,Text, FlatList } from 'react-native';
 import {colors} from '../../constants/theme.json'
 import Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchFilterModal from '../../components/searchFilterDrawer/searchFilterModal';
+import { Searchbar } from 'react-native-paper';
+import { useEffect, useState } from 'react';
 
 export default function AllClients({clients}) {
+  const [filteredClients , setFilteredClients] = useState([...clients])
+
 
 const renderItem = ({ item }) => (
   <View style={styles.card}>
@@ -27,6 +31,18 @@ const renderItem = ({ item }) => (
 
   return (
     <View style={styles.screenContent}>
+      <Searchbar
+        placeholder="ابحث بالاسم"
+        style={{width:'40%' , alignSelf:'center'}}
+        onChangeText={(query)=>{
+          if(query === ''){
+            setFilteredClients(clients)
+          }else{
+            let filtered = filteredClients.filter((client , index)=>client.name.includes(query))
+            setFilteredClients([...filtered])
+          }
+        }}
+      />
       <View style={styles.tableHeader}>
         <Icon name='gold' size={20} color={colors.secondary}/>
         <Icon name='account-cash' size={30} color={colors.secondary}/>
@@ -35,12 +51,12 @@ const renderItem = ({ item }) => (
         <Icon name='qrcode-scan' size={30} color={colors.secondary}/>
       </View>
       <FlatList
-        data={clients}
+        data={filteredClients}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled
       />
-      <SearchFilterModal ArrayToSearch={[...clients]}/> 
+      {/* <SearchFilterModal ArrayToSearch={[...clients]}/>  */}
     </View>
   )
 }
@@ -99,7 +115,7 @@ const styles = StyleSheet.create({
     marginHorizontal:'auto',
     backgroundColor: colors.secondary,
     width: "90%",
-    aspectRatio: 10,
+    aspectRatio: 15,
     alignItems: "center",
     justifyContent: "space-between",
     borderRadius: 15,
