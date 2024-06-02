@@ -34,6 +34,7 @@
     "react-native-screens": "3.31.1",
     "react-native-swiper": "^1.6.0",
     "react-native-toast-message": "^2.2.0",
+    "react-native-uuid": "^2.0.2",
     "react-native-vector-icons": "^10.1.0",
     "realm": "^12.7.1",
     "zustand": "^4.5.2"

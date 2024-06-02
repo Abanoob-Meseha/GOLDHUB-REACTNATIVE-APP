@@ -7,9 +7,9 @@ import {client , outPrice} from '../../data/basicData.json'
 import { Link } from 'expo-router';
 import { saveClientOffline } from '../../utils/asyncStorage.util';
 import  useStore  from '../../zustand/useStore';
+import { generateUniqueID } from '../../utils/others';
 
 export default function AddClient() {
-  // do not forget the date it should saved with every deal as global
   const [loading , setLoading]= useState(false);
   const [clientType, setClientType] = useState(null);
   const [name, setName] = useState("");
@@ -22,7 +22,10 @@ export default function AddClient() {
   const [initialGold , setInitialGold]= useState(0);
   const setClients = useStore((state)=>state.setClients);
   const clients = useStore((state)=>state.clients);
-  const [id, setId] = useState((clients.length + 1));
+  
+  const [id, setId] = useState(generateUniqueID());
+  const [index , setIndex] = useState((clients.length + 1));
+  
 
   const clientType_dropmenu = client ;
   const outPrice_dropmenu = outPrice ; 
@@ -45,7 +48,8 @@ export default function AddClient() {
     setLoading(false);
   };
   useEffect(()=>{
-    setId(clients.length + 1)
+    setIndex(clients.length + 1)
+    setId(generateUniqueID())
   }, [clients])
   return (
       <View style={styles.screenContent}>
@@ -63,7 +67,7 @@ export default function AddClient() {
               mode='outlined'
               label="اسم المتعامل"
               value={name}
-              style={{width:'30%'}}
+              style={{width:'25%'}}
               onChangeText={name => setName(name)}
             />
             <Dropdown
@@ -93,11 +97,20 @@ export default function AddClient() {
             <TextInput
               keyboardType='phone-pad'
               mode='outlined'
+              label="العميل رقم"
+              value={index.toString()}
+              textColor={colors.primary}
+              disabled
+              style={{width : '7%' }}
+            />
+            <TextInput
+              keyboardType='phone-pad'
+              mode='outlined'
               label="كود العميل"
               value={id.toString()}
               textColor={colors.primary}
               disabled
-              style={{width : '10%' }}
+              style={{width : '7%' }}
             />
           </View>
           <View style={[styles.row , {justifyContent:'space-around',backgroundColor:'green',marginBottom:0,paddingVertical:5}]}>

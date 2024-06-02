@@ -23,8 +23,14 @@ export default function AllClients() {
     setFilteredClients(clients)
   }, [clients])
   
-const renderItem = ({ item }) => (
+const renderItem = ({ item  , index}) => (
   <View style={styles.card}>
+    <IconButton
+      icon="delete"
+      iconColor={colors.error}
+      size={30}
+      onPress={()=>handleDeleteClient(item.id)}
+    />
     <Text style={styles.cardTitle}>
       {item.initialGold}
     </Text>
@@ -38,14 +44,9 @@ const renderItem = ({ item }) => (
       {item.name}
     </Text>
     <Text style={styles.cardTitle}>
-      {item.id}
+      {index}
     </Text>
-    <IconButton
-      icon="delete"
-      iconColor={colors.error}
-      size={30}
-      onPress={()=>handleDeleteClient(item.id)}
-    />
+    
   </View>
 );
 
@@ -66,13 +67,12 @@ const renderItem = ({ item }) => (
         }}
       />
       <View style={styles.tableHeader}>
+        <Icon name='delete' size={30} color={colors.secondary}/>
         <Icon name='gold' size={20} color={colors.secondary}/>
         <Icon name='account-cash' size={30} color={colors.secondary}/>
         <Icon name='phone' size={30} color={colors.secondary}/>  
         <Icon name='account' size={30} color={colors.secondary}/>  
         <Icon name='qrcode-scan' size={30} color={colors.secondary}/>
-        <Icon name='delete' size={30} color={colors.secondary}/>
-
       </View>
       <FlatList
         data={filteredClients}
