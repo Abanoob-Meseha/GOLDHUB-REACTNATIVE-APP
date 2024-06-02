@@ -1,13 +1,11 @@
 import { StyleSheet, View } from 'react-native'
 import COLORS from '../../constants/colors'
-import AddTransaction from '../../components/addtransaction/addTransaction'
-import TransactionsFooter from '../../components/transactionsfooter/transactionsFooter'
 import Transactions from '../../components/transactions/transactions'
-export default function allTransactions(props) {
-    let {reload} = props
+
+export default function BillTransactions() {
   return (
     <View style={styles.container}>
-      <Transactions reload = {reload}/>
+      <Transactions />
     </View>
   )
 }

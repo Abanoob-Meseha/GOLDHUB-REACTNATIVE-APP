@@ -140,6 +140,31 @@ export const pushToArray = async (key, newItem) => {
   }
 };
 
+export const deleteElementById = async (key, idToDelete) => {
+  try {
+    // Step 1: Retrieve the array from AsyncStorage
+    const jsonValue = await AsyncStorage.getItem(key);
+    if (jsonValue !== null) {
+      // Step 2: Parse the array from JSON
+      let array = JSON.parse(jsonValue);
+
+      // Step 3: Filter the array to remove the element(s) with the matching id
+      array = array.filter(item => item.id !== idToDelete);
+
+      // Step 4: Convert the updated array back to a JSON string
+      const updatedJsonValue = JSON.stringify(array);
+
+      // Step 5: Save the updated array back to AsyncStorage
+      await AsyncStorage.setItem(key, updatedJsonValue);
+
+      console.log('Element deleted successfully');
+    } else {
+      console.log('Array not found');
+    }
+  } catch (e) {
+    console.error('Failed to delete element', e);
+  }
+};
 
 // ------------------------------Client Functions
 export const saveClientOffline = async (client) => {
@@ -160,6 +185,7 @@ export const getClientsOffline = async ()=>{
     console.log("Error Getting All Clients" , error)
   }
 }
+
 // ------------------------------Deals Functions
 export const saveDealOffline = async (deal)=>{
   try {

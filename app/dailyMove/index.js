@@ -4,16 +4,16 @@ import Swiper from 'react-native-swiper';
 import COLORS from '../../constants/colors';
 import { changeOrientaionToPortrait, changeOrientationToLandscape } from '../../utils/screenOrientaion.util';
 import AddTransactionScreen from './addTransactionScreen';
-import AllTransactions from './allTransactions';
-import AppBar from '../../components/appBar/appBar';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import BillTransactions from './billTransactions';
+import AllMoves from './allMoves';
 import AddClient from './addClient';
 import AllClients from './allClients';
+import AppBar from '../../components/appBar/appBar';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { getClientsOffline } from '../../utils/asyncStorage.util';
 import  useStore  from '../../zustand/useStore';
 
-export default function transactions() {
-  const [reload, setReload] = useState(false)
+export default function DailyMove() {
   const appBarIndex = useStore((state)=>state.appBarIndex)
   const setAppBarIndex = useStore((state)=>state.setAppBarIndex)
   const clients = useStore((state)=>state.clients);
@@ -32,10 +32,11 @@ export default function transactions() {
       <AppBar />
       <Swiper style={styles.wrapper} loop={false} showsPagination={true} 
         index={appBarIndex} onIndexChanged={(index)=>setAppBarIndex(index)}>  
-        <AllClients clients={[...clients]}/>  
-        <AddClient clients={[...clients]}/>
-        <AddTransactionScreen />  
-        <AllTransactions reload = {reload}/>
+        <AllClients />  
+        <AddClient />
+        <AddTransactionScreen/>  
+        <BillTransactions/>
+        <AllMoves/>
       </Swiper>
     </SafeAreaView>
   );

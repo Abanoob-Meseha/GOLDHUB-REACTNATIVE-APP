@@ -4,11 +4,25 @@ import Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchFilterModal from '../../components/searchFilterDrawer/searchFilterModal';
 import { Searchbar } from 'react-native-paper';
 import { useEffect, useState } from 'react';
+import { deleteElementById } from '../../utils/asyncStorage.util';
+import { IconButton } from 'react-native-paper';
+import  useStore  from '../../zustand/useStore';
 
-export default function AllClients({clients}) {
+export default function AllClients() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const setClients = useStore((state)=>state.setClients);
+  const clients = useStore((state)=>state.clients);
   const [filteredClients , setFilteredClients] = useState([...clients])
 
-
+  const handleDeleteClient = async (clientId)=>{
+    await deleteElementById('clients',clientId)
+    setFilteredClients(filteredClients.filter((client)=>client.id !== clientId))
+    setClients(clients.filter((client)=>client.id !== clientId))
+  }
+  useEffect(() => {
+    setFilteredClients(clients)
+  }, [clients])
+  
 const renderItem = ({ item }) => (
   <View style={styles.card}>
     <Text style={styles.cardTitle}>
@@ -26,6 +40,12 @@ const renderItem = ({ item }) => (
     <Text style={styles.cardTitle}>
       {item.id}
     </Text>
+    <IconButton
+      icon="delete"
+      iconColor={colors.error}
+      size={30}
+      onPress={()=>handleDeleteClient(item.id)}
+    />
   </View>
 );
 
@@ -34,7 +54,9 @@ const renderItem = ({ item }) => (
       <Searchbar
         placeholder="ابحث بالاسم"
         style={{width:'40%' , alignSelf:'center'}}
+        value={searchQuery}
         onChangeText={(query)=>{
+          setSearchQuery(query)
           if(query === ''){
             setFilteredClients(clients)
           }else{
@@ -49,6 +71,8 @@ const renderItem = ({ item }) => (
         <Icon name='phone' size={30} color={colors.secondary}/>  
         <Icon name='account' size={30} color={colors.secondary}/>  
         <Icon name='qrcode-scan' size={30} color={colors.secondary}/>
+        <Icon name='delete' size={30} color={colors.secondary}/>
+
       </View>
       <FlatList
         data={filteredClients}
@@ -69,7 +93,7 @@ const styles = StyleSheet.create({
   tableHeader:{
     display:'flex',
     flexDirection:'row',
-    width:'90%',
+    width:'100%',
     marginHorizontal:'auto',
     paddingVertical:'1%',
     paddingHorizontal:'3%',
@@ -114,7 +138,7 @@ const styles = StyleSheet.create({
   card: {
     marginHorizontal:'auto',
     backgroundColor: colors.secondary,
-    width: "90%",
+    width: "100%",
     aspectRatio: 15,
     alignItems: "center",
     justifyContent: "space-between",

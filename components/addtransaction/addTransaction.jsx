@@ -1,23 +1,28 @@
-import React, { useState } from "react";
-import { View, TextInput } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
 import { styles } from "./addTransactionStyle";
 import { Dropdown } from 'react-native-element-dropdown';
-import {client , outPrice, moveTypes} from '../../data/basicData.json'
+import { moveTypes} from '../../data/basicData.json'
 import TransactionsFooter from '../transactionsfooter/transactionsFooter'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TextInput , Button } from 'react-native-paper';
+import {colors} from '../../constants/theme.json'
+import useStore from "../../zustand/useStore";
 
-export default function addTransaction(props) {
-  const [treasury , setTtreasury ] = useState(false);
-  const [clientCode , setClientCode ] = useState(false);
-  const [moveType , setMoveType ] = useState(false);
-  const [move , setMove ] = useState(false);
-  const [transactionNumber , setTransactionNumber ] = useState(false);
-  const [transactionValue , setTransactionValue ] = useState(false);
-  const [factor , setFactor ] = useState(false);
-  const [valueAsGold , setValueAsGold ] = useState(false);
-  const [gramValue , setGramValue ] = useState(false);
-  const [priceAsGold , setPriceAsGold ] = useState(false);
-  const [totalCash , setTotalCash ] = useState(false);
+export default function addTransaction() {
+  const [treasury , setTreasury ] = useState('');
+  const [clientName , setClientName ] = useState('');
+  const [moveType , setMoveType ] = useState('');
+  const [move , setMove ] = useState('');
+  const [transactionNumber , setTransactionNumber ] = useState(0);
+  const [transactionValue , setTransactionValue ] = useState(0);
+  const [factor , setFactor ] = useState(0);
+  const [valueAsGold , setValueAsGold ] = useState(0);
+  const [gramValue , setGramValue ] = useState(0);
+  const [priceAsGold , setPriceAsGold ] = useState(0);
+  const [totalCash , setTotalCash ] = useState(0);
+  const [clientsDropdown , setClientsDropdown] = useState([])
+  const clients = useStore((state)=>state.clients);
 
   const saveClient = async (userId,user) => {
     try {
@@ -44,7 +49,12 @@ const handleTransactionSave = async () => {
   await saveClient(treasury, transaction);
   
 };
-
+  useEffect(()=>{
+    let clientsData = clients.map((client ,index)=>{
+      return({"label":client.name , "value":client.name})
+    })
+    setClientsDropdown(clientsData)
+  },[clients])
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -58,7 +68,7 @@ const handleTransactionSave = async () => {
           maxHeight={300}
           placeholderStyle={styles.dropdownText}
           selectedTextStyle={styles.dropdownText}
-          onChange={item => setTtreasury(item.value)}
+          onChange={item => setTreasury(item.value)}
           placeholder={'الخزنه - كود الخزنه'}
           />
         </View>
@@ -66,48 +76,46 @@ const handleTransactionSave = async () => {
           <Dropdown
           labelField="label"
           valueField="value"
-          data={moveTypes}
-          value={clientCode}
+          data={clientsDropdown}
+          value={clientName}
           style={styles.dropdown}
           maxHeight={300}
           placeholderStyle={styles.dropdownText}
           selectedTextStyle={styles.dropdownText}
-          onChange={item => setClientCode(item.value)}
+          onChange={item => setClientName(item.value)}
           placeholder={'العميل - كود العميل'}
         />
         </View>
-        <View style={[{width:"20%"}, styles.field]}>
-           <TextInput
-          editable
-          maxLength={5}
-          onChangeText={text => setTransactionNumber(text)}
+        <TextInput
+          keyboardType='phone-pad'
+          mode='outlined'
+          label="رقم الحركة النسبي"
           value={transactionNumber}
-          style={styles.goldenInput}
-          placeholder="رقم الحركه النسبى"
+          textColor={colors.primary}
+          disabled
+          style={{width : '20%' }}
+          onChangeText={transactionNumber => setTransactionNumber(transactionNumber)}
         />
-        </View>
       </View>
-      <View style={styles.row}>
-      <View style={[{width:"20%"}, styles.field]}>
-           <TextInput
-          editable
-          maxLength={5}
-          style={styles.goldenInput}
-          placeholder="المعامل"
-          onChangeText={text => setFactor(text)}
+      <View style={styles.row}>           
+        <TextInput
+          keyboardType='phone-pad'
+          mode='outlined'
+          label="المعامل"
           value={factor}
+          textColor={colors.primary}
+          style={{width : '20%' }}
+          onChangeText={factor => setFactor(factor)}
         />
-        </View>
-        <View style={[{width:"30%"}, styles.field]}>
-           <TextInput
-          editable
-          maxLength={5}
-          style={styles.normalInput}
-          placeholder="قيمة الحركه"
-          onChangeText={text => setTransactionValue(text)}
+        <TextInput
+          keyboardType='phone-pad'
+          mode='outlined'
+          label="قيمة الحركة"
           value={transactionValue}
+          textColor={colors.primary}
+          style={{width : '20%' }}
+          onChangeText={transactionValue => setTransactionValue(transactionValue)}
         />
-        </View>
         <View style={[{width:"20%"}, styles.field]}>
           <Dropdown
           labelField="label"
@@ -138,46 +146,42 @@ const handleTransactionSave = async () => {
         </View>
       </View>
       <View style={styles.row}>
-        <View style={[{ width: "30%" }, styles.field]}>
-           <TextInput
-          editable
-          maxLength={5}
-          style={styles.goldenInput}
-          placeholder="اجمالى النقديه"
-          onChangeText={text => setTotalCash(text)}
+        <TextInput
+          keyboardType='phone-pad'
+          mode='outlined'
+          label="اجمالي النقدية"
           value={totalCash}
+          textColor={colors.primary}
+          style={{width : '30%' }}
+          onChangeText={totalCash => setTotalCash(totalCash)}
         />
-        </View>
-        <View style={[{width:"20%"}, styles.field]}>
-           <TextInput
-          editable
-          maxLength={5}
-          style={styles.goldenInput}
-          placeholder=" الاجره كذهب 21"
-          onChangeText={text => setPriceAsGold(text)}
+        <TextInput
+          keyboardType='phone-pad'
+          mode='outlined'
+          label="الاجرة كذهب 21"
           value={priceAsGold}
+          textColor={colors.primary}
+          style={{width : '20%' }}
+          onChangeText={priceAsGold => setPriceAsGold(priceAsGold)}
         />
-        </View>
-        <View style={[{width:"20%"}, styles.field]}>
-           <TextInput
-          editable
-          maxLength={5}
-          style={styles.normalInput}
-          placeholder="اجرة الجرام ..."
-          onChangeText={text => setGramValue(text)}
+        <TextInput
+          keyboardType='phone-pad'
+          mode='outlined'
+          label="اجرة الجرام .."
           value={gramValue}
+          textColor={colors.primary}
+          style={{width : '20%' }}
+          onChangeText={gramValue => setGramValue(gramValue)}
         />
-        </View>
-        <View style={[{width:"25%"}, styles.field]}>
-           <TextInput
-          editable
-          maxLength={5}
-          style={styles.goldenInput}
-          placeholder="القيمه كذهب 21"
-          onChangeText={text => setValueAsGold(text)}
+        <TextInput
+          keyboardType='phone-pad'
+          mode='outlined'
+          label="القيمة كذهب 21"
           value={valueAsGold}
+          textColor={colors.primary}
+          style={{width : '20%' }}
+          onChangeText={valueAsGold => setValueAsGold(valueAsGold)}
         />
-        </View>
       </View>
     <TransactionsFooter index ={1} handleTransactionSave = { handleTransactionSave}/>
     </View>

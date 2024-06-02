@@ -29,9 +29,9 @@ export default function dashboard() {
       <Navbar imgUrl='../../assets/images/AVATAR.png' brand={user? user.brand : 'GOLDHUB'} />
       <DailyPrice />
       <View style={styles.fingerprintContainer}>
-        <Swiper showsPagination={true} index={1}>
-          <DashboardTwo />
+        <Swiper showsPagination={true} >
           <DashboardLanding />
+          <DashboardTwo />
           <DashboardTransactions />
         </Swiper>
       </View>

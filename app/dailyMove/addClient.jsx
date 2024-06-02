@@ -8,10 +8,9 @@ import { Link } from 'expo-router';
 import { saveClientOffline } from '../../utils/asyncStorage.util';
 import  useStore  from '../../zustand/useStore';
 
-export default function AddClient({clients}) {
+export default function AddClient() {
   // do not forget the date it should saved with every deal as global
   const [loading , setLoading]= useState(false);
-  const [id, setId] = useState((clients.length + 1).toString());
   const [clientType, setClientType] = useState(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -22,6 +21,8 @@ export default function AddClient({clients}) {
   const [initialMoney , setInitialMoney]= useState(0);
   const [initialGold , setInitialGold]= useState(0);
   const setClients = useStore((state)=>state.setClients);
+  const clients = useStore((state)=>state.clients);
+  const [id, setId] = useState((clients.length + 1));
 
   const clientType_dropmenu = client ;
   const outPrice_dropmenu = outPrice ; 
@@ -43,7 +44,9 @@ export default function AddClient({clients}) {
     await saveClientOffline(client);
     setLoading(false);
   };
-  
+  useEffect(()=>{
+    setId(clients.length + 1)
+  }, [clients])
   return (
       <View style={styles.screenContent}>
         <ScrollView contentContainerStyle={styles.form}>
@@ -90,11 +93,11 @@ export default function AddClient({clients}) {
             <TextInput
               keyboardType='phone-pad'
               mode='outlined'
-              label="ID"
-              value={id}
+              label="كود العميل"
+              value={id.toString()}
+              textColor={colors.primary}
               disabled
-              style={{width : '10%'}}
-              onChangeText={id => setId(id)}
+              style={{width : '10%' }}
             />
           </View>
           <View style={[styles.row , {justifyContent:'space-around',backgroundColor:'green',marginBottom:0,paddingVertical:5}]}>
@@ -116,7 +119,7 @@ export default function AddClient({clients}) {
               right={<TextInput.Icon icon="gold" color={colors.primary} />}
               onChangeText={initialGold => setInitialGold(initialGold)}
             />
-            <Text style={[styles.contentTitle , {fontSize:21}]}> الرصيد الافتتاحي</Text>
+            <Text style={[styles.contentTitle , {fontSize:18}]}> الرصيد الافتتاحي</Text>
           </View>
           <View style={[styles.row , {justifyContent:'space-around',backgroundColor:colors.onError,marginBottom:0,paddingVertical:5}]}>
             <TextInput
@@ -137,7 +140,7 @@ export default function AddClient({clients}) {
               right={<TextInput.Icon icon="gold" color={colors.primary} />}
               onChangeText={creditLimitGold => setCreditLimitGold(creditLimitGold)}
             />
-            <Text style={styles.contentTitle}> حد الائتمان </Text>
+            <Text style={[styles.contentTitle,{fontSize:22}]}> حد الائتمــــان </Text>
           </View>
           <View style={styles.row}>
             <Button icon="camera" 
@@ -147,15 +150,6 @@ export default function AddClient({clients}) {
             onPress={() => console.log('Pressed')}>
               الغاء الاضافة
             </Button>
-            <Link href="/allclients" asChild>
-              <Button  
-              style={{width:'30%'}}
-              buttonColor='blue' textColor='white'
-              mode="contained" 
-              onPress={() => console.log('Pressed')}>
-                جميع العملاء
-              </Button>
-            </Link>
             <Button icon="camera" 
               style={{width:'30%'}}
               buttonColor='green' textColor='white'
@@ -209,5 +203,4 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight:'bold'
   }
-  
 })

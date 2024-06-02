@@ -7,7 +7,7 @@ export default function AddTransactionScreen() {
     
   return (
     <View style={styles.container}>
-        <AddTransaction />
+        <AddTransaction/>
     </View>
   )
 }

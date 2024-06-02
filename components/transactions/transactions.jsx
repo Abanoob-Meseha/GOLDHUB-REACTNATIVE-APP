@@ -2,45 +2,14 @@ import { React, useState, useEffect } from "react";
 import { Text, View, FlatList } from 'react-native';
 import { styles } from "./transactionsStyle";
 import TransactionsFooter from '../transactionsfooter/transactionsFooter'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Transactions(props) {
-  let {reload} = props
+export default function Transactions() {
   const [data, setData] = useState([]);
   
-  const getTransactions = async () => {
-    try {
-      const keys = await AsyncStorage.getAllKeys();
-      const result = await AsyncStorage.multiGet(keys);
   
-      const transaction= {};
-      result.forEach(([key, value]) => {
-        if (value) {
-          try {
-            transaction[key] = JSON.parse(value);
-          } catch (e) {
-            console.log(`Error parsing value for key ${key}:`, e);
-          }
-        } else {
-          transaction[key] = value; 
-        }
-      });
-      // console.log("transaction", transaction);
-      return transaction;
-    } catch (err) {
-      console.log('Problem getting the transaction', err);
-      return {};
-    }
-  };
   useEffect(() => {
-    const fetchData = async () => {
-      const transaction= await getTransactions();
-      const transactionsArray = Object.values(transaction);
-      setData(transactionsArray);
-      // console.log("Dataaaaaa",data);
-    };
-    fetchData();
-  }, [reload]);
+    
+  }, []);
 
 
   const renderItem = ({ item }) => {
