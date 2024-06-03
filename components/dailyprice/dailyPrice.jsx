@@ -45,6 +45,7 @@ export default function dailyPrice() {
             setDollarBuy(pricesObject.dollarBuy)
             setDollarSell(pricesObject.dollarSell)
             setOunceSell(pricesObject.ounceSell)
+            console.log("Prices retreived from offline DB")
         }).catch((err)=>{
             console.log("Problem in getting Prices" , err)
         })
@@ -59,10 +60,10 @@ export default function dailyPrice() {
                 سعر الدهـــب
             </Text>
             <View style={styles.inputContainer}>
-                <TextInput keyboardType="number-pad" mode='outlined' label={'شراء'} style={styles.input} outlineStyle={{borderColor:'green' , borderWidth:3}} 
+                <TextInput keyboardType="number-pad" inputMode="numeric" mode='outlined' label={'شراء'} style={styles.input} outlineStyle={{borderColor:'green' , borderWidth:3}} 
                 value={goldBuy}
                 onChangeText={(goldBuy)=>setGoldBuy(goldBuy)}/>
-                <TextInput keyboardType="number-pad" mode='outlined' label={'بيع'} style={styles.input} outlineStyle={{borderColor:'darkred' , borderWidth:3}}
+                <TextInput keyboardType="number-pad" inputMode="numeric" mode='outlined' label={'بيع'} style={styles.input} outlineStyle={{borderColor:'darkred' , borderWidth:3}}
                 value={goldSell}
                 onChangeText={(goldSell)=>setGoldSell(goldSell)}/>
             </View>

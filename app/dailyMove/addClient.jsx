@@ -121,7 +121,7 @@ export default function AddClient() {
               value={initialMoney}
               style={{width : '20%'}}
               right={<TextInput.Icon icon="cash-multiple" color={colors.primary} />}
-              onChangeText={initialMoney => setInitialMoney(initialMoney)}
+              onChangeText={initialMoney => setInitialMoney(Number(initialMoney))}
             />
             <TextInput
               keyboardType='phone-pad'
@@ -130,7 +130,7 @@ export default function AddClient() {
               value={initialGold}
               style={{width : '20%'}}
               right={<TextInput.Icon icon="gold" color={colors.primary} />}
-              onChangeText={initialGold => setInitialGold(initialGold)}
+              onChangeText={initialGold => setInitialGold(Number(initialGold))}
             />
             <Text style={[styles.contentTitle , {fontSize:18}]}> الرصيد الافتتاحي</Text>
           </View>
@@ -142,7 +142,7 @@ export default function AddClient() {
               value={creditLimitMoney}
               style={{width : '20%'}}
               right={<TextInput.Icon icon="cash-multiple" color={colors.primary} />}
-              onChangeText={creditLimitMoney => setCreditLimitMoney(creditLimitMoney)}
+              onChangeText={creditLimitMoney => setCreditLimitMoney(Number(creditLimitMoney))}
             />
             <TextInput
               keyboardType='phone-pad'
@@ -151,7 +151,7 @@ export default function AddClient() {
               value={creditLimitGold}
               style={{width : '20%'}}
               right={<TextInput.Icon icon="gold" color={colors.primary} />}
-              onChangeText={creditLimitGold => setCreditLimitGold(creditLimitGold)}
+              onChangeText={creditLimitGold => setCreditLimitGold(Number(creditLimitGold))}
             />
             <Text style={[styles.contentTitle,{fontSize:22}]}> حد الائتمــــان </Text>
           </View>

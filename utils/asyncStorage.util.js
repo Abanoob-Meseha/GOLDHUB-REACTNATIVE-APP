@@ -195,3 +195,13 @@ export const saveDealOffline = async (deal)=>{
     console.log('Problem saving the user', err);
   }
 }
+
+// ---------------------------safe Functions
+export const saveSafeOffline = async (safe)=>{
+  try {
+    await pushToArray("safes",safe);
+    console.log("Saved Safe", safe);
+  } catch (err) {
+    console.log('Problem saving the Safe', err);
+  }
+}

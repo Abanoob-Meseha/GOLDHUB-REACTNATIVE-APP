@@ -34,5 +34,14 @@
         {"moveType":"عيار 15" , "operator":1},
         {"moveType":"نقد اجنبي 2" , "operator":70}
 
+    ],
+    "measures":[
+        {"label":"عيار 15" ,"value":"عيار 15" , "operator":0.833},
+        {"label":"عيار 18" ,"value":"عيار 18" , "operator":0.875},
+        {"label":"عيار 21" ,"value":"عيار 21" , "operator":1 },
+        {"label":"عيار 22" ,"value":"عيار 22" , "operator":1.048},
+        {"label":"عيار 9999" ,"value":"عيار 9999" , "operator":1.143},
+        {"label":"عيار 9999 شركات" ,"value":"عيار 9999 شركات" , "operator":1.143},
+        {"label":"سبائك - عيارات مختلفة" ,"value":"سبائك - عيارات مختلفة" , "operator":1}
     ]
 }

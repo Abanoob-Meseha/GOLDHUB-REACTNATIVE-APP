@@ -29,10 +29,10 @@ export default function dashboardLanding() {
             الاكواد والبيانات الاساسيه
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style ={styles.card}>
+        <TouchableOpacity style ={styles.card} onPress={()=>{router.navigate('/safe')}}>
          <Image source={require('../../assets/images/reports.png')} style={styles.image} />
          <Text style={styles.cardTitle}>
-            التقارير
+            ادخال الخزنة
           </Text>
         </TouchableOpacity>
       </View>
