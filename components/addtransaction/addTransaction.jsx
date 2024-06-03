@@ -1,79 +1,84 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View , Text} from "react-native";
 import { styles } from "./addTransactionStyle";
 import { Dropdown } from 'react-native-element-dropdown';
-import { moveTypes} from '../../data/basicData.json'
+import { moveTypes , measures} from '../../data/basicData.json'
 import TransactionsFooter from '../transactionsfooter/transactionsFooter'
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TextInput , Button } from 'react-native-paper';
+import { TextInput , Button, IconButton } from 'react-native-paper';
 import {colors} from '../../constants/theme.json'
 import useStore from "../../zustand/useStore";
 
 export default function addTransaction() {
-  const [treasury , setTreasury ] = useState('');
+  const [safe , setSafe ] = useState('');
   const [clientName , setClientName ] = useState('');
   const [moveType , setMoveType ] = useState('');
   const [move , setMove ] = useState('');
-  const [transactionNumber , setTransactionNumber ] = useState(0);
   const [transactionValue , setTransactionValue ] = useState(0);
-  const [factor , setFactor ] = useState(0);
+  const [operator , setOperator ] = useState(0);
   const [valueAsGold , setValueAsGold ] = useState(0);
   const [gramValue , setGramValue ] = useState(0);
+  const [gram21Value , setGram21Value ] = useState(0);
+  const [gramTotalValue , setGramTotalValue] = useState(0)
+  const [transValueAsGold , setTransValueAsGold] = useState(0)
   const [priceAsGold , setPriceAsGold ] = useState(0);
   const [totalCash , setTotalCash ] = useState(0);
   const [clientsDropdown , setClientsDropdown] = useState([])
   const clients = useStore((state)=>state.clients);
-
-  const saveClient = async (userId,user) => {
-    try {
-      await AsyncStorage.setItem(userId, JSON.stringify(user));
-      console.log("Saved user", user);
-    } catch (err) {
-      console.log('Problem saving the user', err);
-    }
-  };
+  const deals = useStore((state)=>state.deals);
+  const safes = useStore((state)=>state.safes)
+  const [dealNum , setDealNum]= useState(deals.length+1)
+  const transactions = useStore((state)=>state.transactions)
+  const [transactionNumber , setTransactionNumber ] = useState(transactions.length + 1);
+  const goldBuy = useStore((state)=>state.goldBuy)
+  const setTransactions = useStore((state)=>state.setTransactions)
+  const setMove_clientId = useStore((state)=>state.setMove_clientId)
+  const [safesData , setSafesData ] = useState([])
+  const [clientsData , setClientsData ] = useState([])
 const handleTransactionSave = async () => {
   const transaction = {
-    treasury,
-    clientCode,
+    safe,
     moveType,
     move,
-    transactionNumber,
     transactionValue,
-    factor,
-    valueAsGold,
-    gramValue,
-    priceAsGold,
-    totalCash
+    operator,
+    totalCash,
+    gramTotalValue,
   };
-  await saveClient(treasury, transaction);
-  
+  setTransactions([...transactions , transaction])
 };
   useEffect(()=>{
-    let clientsData = clients.map((client ,index)=>{
-      return({"label":client.name , "value":client.name})
-    })
+    setClientsData(clients.map((client ,index)=>{
+      return({"label":client.name , "value":client.name , "clientId":client.id})
+    }))
+    setSafesData(safes.map((safe ,index)=>{
+      return({"label":safe.id , "value":safe.id})
+    }))
     setClientsDropdown(clientsData)
-  },[clients])
+    setDealNum(deals.length + 1)
+    setTransactionNumber(transactions.length +1)
+  },[clients , deals , transactions ,safes])
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <View style={[{width:"30%"}, styles.field]}>
+        <View style={[{width:"20%"}, styles.field]}>
           <Dropdown
           labelField="label"
           valueField="value"
-          data={moveTypes}
-          value={treasury}
+          data={safesData}
+          value={safe}
           style={styles.dropdown}
           maxHeight={300}
           placeholderStyle={styles.dropdownText}
           selectedTextStyle={styles.dropdownText}
-          onChange={item => setTreasury(item.value)}
+          onChange={item => setSafe(item.value)}
           placeholder={'الخزنه - كود الخزنه'}
           />
         </View>
         <View style={[{width:"40%"}, styles.field]}>
           <Dropdown
+          search
+          searchPlaceholder= "ابحث بالاسم"
           labelField="label"
           valueField="value"
           data={clientsDropdown}
@@ -82,31 +87,34 @@ const handleTransactionSave = async () => {
           maxHeight={300}
           placeholderStyle={styles.dropdownText}
           selectedTextStyle={styles.dropdownText}
-          onChange={item => setClientName(item.value)}
+          onChange={(item) => {
+            setClientName(item.value)
+            setMove_clientId(item.clientId)
+          }
+        }
           placeholder={'العميل - كود العميل'}
         />
         </View>
         <TextInput
           keyboardType='phone-pad'
           mode='outlined'
-          label="رقم الحركة النسبي"
-          value={transactionNumber}
+          label="رقم الحركة"
+          value={dealNum.toString()}
           textColor={colors.primary}
           disabled
-          style={{width : '20%' }}
-          onChangeText={transactionNumber => setTransactionNumber(transactionNumber)}
+          style={{width : '15%' }}
         />
-      </View>
-      <View style={styles.row}>           
         <TextInput
           keyboardType='phone-pad'
           mode='outlined'
-          label="المعامل"
-          value={factor}
+          label="المعاملة رقم "
+          value={transactionNumber.toString()}
           textColor={colors.primary}
-          style={{width : '20%' }}
-          onChangeText={factor => setFactor(factor)}
+          disabled
+          style={{width : '15%' }}
         />
+      </View>
+      <View style={styles.row}>           
         <TextInput
           keyboardType='phone-pad'
           mode='outlined'
@@ -116,18 +124,30 @@ const handleTransactionSave = async () => {
           style={{width : '20%' }}
           onChangeText={transactionValue => setTransactionValue(transactionValue)}
         />
+        <TextInput
+          keyboardType='numeric'
+          mode='outlined'
+          label="المعامل"
+          value={operator.toString()}
+          textColor={colors.primary}
+          style={{width : '20%' }}
+          onChangeText={operator => setOperator(operator)}
+        />
         <View style={[{width:"20%"}, styles.field]}>
           <Dropdown
           labelField="label"
           valueField="value"
-          data={moveTypes}
+          data={measures}
           value={moveType}
           style={styles.dropdown}
           maxHeight={300}
           placeholderStyle={styles.dropdownText}
           selectedTextStyle={styles.dropdownText}
-          onChange={item => setMoveType(item.value)}
-          placeholder={'نوع الحركه'}
+          onChange={item => {
+            setMoveType(item.value)
+            setOperator(item.operator)
+          }}
+          placeholder={'نوع المعاملة'}
           />
         </View>
         <View style={[{width:"20%"}, styles.field]}>
@@ -141,7 +161,7 @@ const handleTransactionSave = async () => {
           placeholderStyle={styles.dropdownText}
           selectedTextStyle={styles.dropdownText}
           onChange={item => setMove(item.value)}
-          placeholder={'الحركه'}
+          placeholder={'المعاملة'}
         />
         </View>
       </View>
@@ -149,41 +169,74 @@ const handleTransactionSave = async () => {
         <TextInput
           keyboardType='phone-pad'
           mode='outlined'
-          label="اجمالي النقدية"
+          label="قيمة المعاملة دهب 21"
+          value={(transactionValue * operator).toString()}
+          textColor={colors.primary}
+          style={{width : '30%' }}
+          onChangeText={transValueAsGold => setTransValueAsGold(transValueAsGold)}
+        />
+        <TextInput
+          keyboardType='numeric'
+          mode='outlined'
+          label="اجرة الجرام"
+          value={gramValue.toString()}
+          textColor={colors.primary}
+          style={{width : '20%' }}
+          onChangeText={gramValue => {
+            setGramValue(gramValue)
+            setGramTotalValue(gramValue * transactionValue)
+          }
+        }
+        />
+        <TextInput
+          keyboardType='numeric'
+          mode='outlined'
+          label="اجرة الجرام كدهب 21"
+          value={gram21Value.toString()}
+          textColor={colors.primary}
+          style={{width : '25%' }}
+          onChangeText={gram21Value => {
+            setGram21Value(gram21Value)
+            setGramTotalValue(gram21Value * transactionValue * operator)
+          }
+          }
+        />
+        <TextInput
+          keyboardType='numeric'
+          mode='outlined'
+          label=" اجمالي الاجرة"
+          value={gramTotalValue.toString()}
+          textColor={colors.primary}
+          style={{width : '20%' }}
+          onChangeText={gramTotalValue => setGramTotalValue(gramTotalValue)}
+        />
+      </View>
+      <View style={styles.row}>
+        <TextInput
+          keyboardType='phone-pad'
+          mode='outlined'
+          label="النقدية"
           value={totalCash}
           textColor={colors.primary}
           style={{width : '30%' }}
           onChangeText={totalCash => setTotalCash(totalCash)}
         />
-        <TextInput
-          keyboardType='phone-pad'
-          mode='outlined'
-          label="الاجرة كذهب 21"
-          value={priceAsGold}
-          textColor={colors.primary}
-          style={{width : '20%' }}
-          onChangeText={priceAsGold => setPriceAsGold(priceAsGold)}
-        />
-        <TextInput
-          keyboardType='phone-pad'
-          mode='outlined'
-          label="اجرة الجرام .."
-          value={gramValue}
-          textColor={colors.primary}
-          style={{width : '20%' }}
-          onChangeText={gramValue => setGramValue(gramValue)}
-        />
-        <TextInput
-          keyboardType='phone-pad'
-          mode='outlined'
-          label="القيمة كذهب 21"
-          value={valueAsGold}
-          textColor={colors.primary}
-          style={{width : '20%' }}
-          onChangeText={valueAsGold => setValueAsGold(valueAsGold)}
+        <Text style={{backgroundColor:colors.primary ,borderRadius:12 , padding:'1%'}}>
+          الاجمالي كدهب 21 : gm {(parseFloat(totalCash) + parseFloat(gramTotalValue))/goldBuy + (transactionValue*operator)}
+        </Text>
+        <Text style={{backgroundColor:colors.primary ,borderRadius:12 , padding:'1%'}}>
+          الاجمالي كنقود  : L.E {parseFloat(totalCash) + parseFloat(gramTotalValue) + (transactionValue*operator*goldBuy)}
+        </Text>
+        <IconButton
+          mode="contained"
+          icon="plus"
+          iconColor={colors.primary}
+          size={40}
+          onPress={handleTransactionSave}
         />
       </View>
-    <TransactionsFooter index ={1} handleTransactionSave = { handleTransactionSave}/>
+      <View>
+      </View>
     </View>
   );
 }

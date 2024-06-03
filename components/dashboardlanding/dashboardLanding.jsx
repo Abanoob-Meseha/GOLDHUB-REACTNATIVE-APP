@@ -7,17 +7,17 @@ export default function dashboardLanding() {
   return (
     <View>
        <View style={styles.container}>
-        <TouchableOpacity style ={styles.card}>
+        <TouchableOpacity style ={styles.card} onPress={()=>{router.navigate('/safeContent')}}>
           <Image source={require('../../assets/images/inventory.png')} style={styles.image} />
             <Text style={styles.cardTitle}>
-              الجرد
+              محتويات الخزنة  
             </Text>
         </TouchableOpacity>
         
         <TouchableOpacity style ={styles.card} onPress={()=>{router.navigate('/dailyMove')}}>
           <Image source={require('../../assets/images/moneyflow.png')} style={styles.image} />
           <Text style={styles.cardTitle}>
-            الحركه الماليه
+              الحركة اليومية
           </Text>
         </TouchableOpacity>
       </View>

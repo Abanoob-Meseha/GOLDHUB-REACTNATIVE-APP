@@ -10,7 +10,7 @@ import AddClient from './addClient';
 import AllClients from './allClients';
 import AppBar from '../../components/appBar/appBar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getClientsOffline } from '../../utils/asyncStorage.util';
+import { getClientsOffline, getDealsOffline, getSafesOffline } from '../../utils/asyncStorage.util';
 import  useStore  from '../../zustand/useStore';
 
 export default function DailyMove() {
@@ -18,11 +18,19 @@ export default function DailyMove() {
   const setAppBarIndex = useStore((state)=>state.setAppBarIndex)
   const clients = useStore((state)=>state.clients);
   const setClients = useStore((state)=>state.setClients);
-
+  const setDeals = useStore((state)=>state.setDeals)
+  const setSafes = useStore((state)=>state.setSafes)
+  
   useEffect(() => {
     changeOrientationToLandscape();
     getClientsOffline().then((clientsArray)=>{
       setClients(clientsArray)
+    })
+    getDealsOffline().then((dealsArray)=>{
+      setDeals(dealsArray)
+    })
+    getSafesOffline().then((safesArray)=>{
+      setSafes(safesArray)
     })
     return () => changeOrientaionToPortrait();
   }, []);

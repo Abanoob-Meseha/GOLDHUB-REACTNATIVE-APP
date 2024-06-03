@@ -38,22 +38,6 @@ export default function Index() {
     }
   };
 
-// Login Validation For More than one User on one device
-  // const loginValidation = async () => {
-  //   let users = await getUsersOffline();
-  //   const userArray = Object.values(users);
-  //   const loginData = [brand, username, password];
-  //   for (let i = 0; i < userArray.length; i++) {
-  //     const savedUser = [];
-  //     for (const [key, value] of Object.entries(userArray[i])) {
-  //       savedUser.push(value);
-  //     }
-  //     if (savedUser[0] === loginData[0] && savedUser[1] === loginData[1] && savedUser[4] === loginData[2]) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // };
 
   const handleLogin = async () => {
     const isValid = await verifyUserOffline(`${brand}@gmail.com`, password);

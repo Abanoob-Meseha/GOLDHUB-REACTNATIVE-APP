@@ -177,7 +177,7 @@ export const saveClientOffline = async (client) => {
 };
 export const getClientsOffline = async ()=>{
   try {
-    let clientsJson = AsyncStorage.getItem("clients")
+    let clientsJson = await AsyncStorage.getItem("clients")
     let clientsArray = JSON.parse(clientsJson)
     console.log("Clients Retrieved Successfully",clientsArray)
     return(clientsArray)
@@ -195,7 +195,16 @@ export const saveDealOffline = async (deal)=>{
     console.log('Problem saving the user', err);
   }
 }
-
+export const getDealsOffline = async ()=>{
+  try {
+    let dealsJson = await AsyncStorage.getItem("deals")
+    let dealsArray = JSON.parse(dealsJson)
+    console.log("Deals Retrieved Successfully",dealsArray)
+    return(dealsArray)
+  } catch (error) {
+    console.log("Error Getting All Deals" , error)
+  }
+}
 // ---------------------------safe Functions
 export const saveSafeOffline = async (safe)=>{
   try {
@@ -203,5 +212,15 @@ export const saveSafeOffline = async (safe)=>{
     console.log("Saved Safe", safe);
   } catch (err) {
     console.log('Problem saving the Safe', err);
+  }
+}
+export const getSafesOffline = async ()=>{
+  try {
+    let safesJson = await AsyncStorage.getItem("safes")
+    let safesArray = JSON.parse(safesJson)
+    console.log("Safes Retrieved Successfully",safesArray)
+    return(safesArray)
+  } catch (error) {
+    console.log("Error Getting All Safes" , error)
   }
 }

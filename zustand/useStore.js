@@ -26,6 +26,18 @@ const useStore = create((set) => ({
 
     clients : [],
     setClients: (dataArray) => set({clients:[...dataArray]}),
+
+    deals: [],
+    setDeals:(dataArray) => set({deals:[...dataArray]}),
+
+    safes:[],
+    setSafes: (dataArray) => set({safes:[...dataArray]}),
+
+    transactions:[],
+    setTransactions: (dataArray) => set({transactions:[...dataArray]}),
+
+    move_clientId:'',
+    setMove_clientId: (move_clientId) => set({move_clientId}),
   }));
 
 export default useStore;

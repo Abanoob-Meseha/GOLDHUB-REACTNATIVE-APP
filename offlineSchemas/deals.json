@@ -1,0 +1,21 @@
+[
+    {
+        "id":"",
+        "clientId":"",
+        "date":"",
+        "transactions":[
+            {
+                "moveType":"",
+                "safe":"",
+                "move":"",
+                "transactionNumber":"",
+                "transactionValue":"",
+                "operator":"",
+                "valueAsGold":"",
+                "gramValue":"",
+                "priceAsGold":"",
+                "totalCash":"" 
+            }
+        ]
+    }
+]

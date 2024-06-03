@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IconButton, TextInput , Button} from 'react-native-paper'
 import {measures} from '../../data/basicData.json'
 import {colors} from '../../constants/theme.json'
@@ -7,7 +7,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import useStore from '../../zustand/useStore'
 import Navbar from "../../components/navbar/navbar"
-import { saveSafeOffline } from '../../utils/asyncStorage.util'
+import { getSafesOffline, saveSafeOffline } from '../../utils/asyncStorage.util'
 
 export default index = () => {
     const [safeContent , setSafeContent] = useState([])
@@ -20,6 +20,8 @@ export default index = () => {
     const goldBuy = useStore((state)=>state.goldBuy);
     const goldSell = useStore((state)=>state.goldSell)
     const user = useStore((state) => state.user);
+    const setSafes = useStore((state)=>state.setSafes)
+    const safes = useStore((state)=>state.safes)
 
     const handleAdd = ()=>{
         setSafeContent([...safeContent , {"measure":selection , "itemValue":value , "itemOperator":operator}])
@@ -40,12 +42,18 @@ export default index = () => {
     }
     const handleSaveSafe = async ()=>{
         let safe = {
-            "safeName":"Safe1",
+            "id":"Safe"+ (safes.length + 1),
             "safeContent":safeContent,
             "totalMoney":totalMoney
         }
         await saveSafeOffline(safe)
+        setSafes([...safes , safe])
     }
+    useEffect(()=>{
+        getSafesOffline().then((safesArray)=>{
+            setSafes(safesArray)
+        })
+    },[])
   return (
     <SafeAreaView style={styles.container}>
       <Navbar imgUrl='../../assets/images/AVATAR.png' brand={user? user.brand : 'GOLDHUB'} />
@@ -129,7 +137,7 @@ export default index = () => {
                 style={{width:'50%'}}
                 onChangeText={totalMoney => setTotalMoney(Number(totalMoney))}
                 inputMode='numeric'
-                />
+            />
             </View>
         </View>
         <View style= {styles.totalContainer}>
@@ -141,8 +149,8 @@ export default index = () => {
                 <Text style={{fontSize:20}}>نقدي : {totalMoney}</Text>
             </View>
             <Text style={styles.totalAsMoney}>الاجمالي كنقود : {totalGoldAsMoney}</Text>
+            <Text style={styles.totalAsMoney}>الاجمالي كدهب 21 : {totalGoldAsMoney/goldBuy}</Text>
         </View>
-
             <Button style={{marginTop:'1%'}} icon="expand-all" mode="contained-tonal" onPress={handleTotal} textColor={'black'}>
                 احسب الاجمالي
             </Button>
