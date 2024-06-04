@@ -5,12 +5,13 @@ import { Link } from 'expo-router';
 import {colors} from "../constants/theme.json"
 import COLORS from '../constants/colors';
 import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [user , setUser] = useState(null);
   
   useEffect(()=>{
-
+    
   } , [])
   return (
     <View style={styles.container}>

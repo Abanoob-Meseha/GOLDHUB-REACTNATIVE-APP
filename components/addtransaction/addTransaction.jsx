@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View , Text} from "react-native";
+import { View , Text, ScrollView} from "react-native";
 import { styles } from "./addTransactionStyle";
 import { Dropdown } from 'react-native-element-dropdown';
 import { moveTypes , measures} from '../../data/basicData.json'
@@ -35,8 +35,9 @@ export default function addTransaction() {
   const setMove_clientId = useStore((state)=>state.setMove_clientId)
   const [safesData , setSafesData ] = useState([])
   const [clientsData , setClientsData ] = useState([])
-const handleTransactionSave = async () => {
+const handleTransactionSave = () => {
   const transaction = {
+    id:transactionNumber,
     safe,
     moveType,
     move,

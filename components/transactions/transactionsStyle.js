@@ -2,7 +2,7 @@ export const styles = {
     container: {
         flex: 1,
         borderRadius:10,
-        width: "90%",
+        width: "95%",
         height : "100%"
       },
       title: {

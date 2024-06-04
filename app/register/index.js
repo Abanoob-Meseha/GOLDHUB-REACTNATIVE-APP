@@ -1,4 +1,4 @@
-import { StyleSheet, View , Text } from 'react-native'
+import { StyleSheet, View , Text, ScrollView } from 'react-native'
 import { Modal, Portal ,TextInput , Button ,ActivityIndicator} from 'react-native-paper';
 import { useState  } from 'react';
 import COLORS from '../../constants/colors';
@@ -43,7 +43,7 @@ export default function register() {
     
   
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}> ادخل البيانات الاتية </Text>
       <View style={styles.form}>
         <TextInput
@@ -103,7 +103,7 @@ export default function register() {
           </Modal>
         </Portal>
         
-    </View>
+    </ScrollView>
   )
 }
  

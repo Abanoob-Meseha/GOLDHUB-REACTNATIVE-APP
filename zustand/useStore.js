@@ -38,6 +38,7 @@ const useStore = create((set) => ({
 
     move_clientId:'',
     setMove_clientId: (move_clientId) => set({move_clientId}),
+
   }));
 
 export default useStore;

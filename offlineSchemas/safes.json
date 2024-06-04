@@ -2,6 +2,7 @@
     {
         "id":"",
         "totalMoney":0,
+        "totalGold21":0,
         "safeContent":[
             {
                 "measure":"",

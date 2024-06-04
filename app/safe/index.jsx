@@ -44,7 +44,8 @@ export default index = () => {
         let safe = {
             "id":"Safe"+ (safes.length + 1),
             "safeContent":safeContent,
-            "totalMoney":totalMoney
+            "totalMoney":totalMoney,
+            "totalGold21":totalGold,
         }
         await saveSafeOffline(safe)
         setSafes([...safes , safe])
@@ -57,6 +58,7 @@ export default index = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Navbar imgUrl='../../assets/images/AVATAR.png' brand={user? user.brand : 'GOLDHUB'} />
+      <ScrollView contentContainerStyle={{flex:1,height:'80%'}}>
       <View>
             <Text style={styles.headline}>
                 اضف الذهب بعياراته المختلفة بالجرام
@@ -145,18 +147,20 @@ export default index = () => {
                 اجمالي الخزنة
             </Text>
             <View style={styles.totalContent}>
-                <Text style={{fontSize:20}}>دهب 21 : {totalGold}</Text>
-                <Text style={{fontSize:20}}>نقدي : {totalMoney}</Text>
+                <Text style={{fontSize:16}}>دهب 21 : {totalGold} gm</Text>
+                <Text style={{fontSize:16}}>نقدي : {totalMoney} L.E</Text>
             </View>
-            <Text style={styles.totalAsMoney}>الاجمالي كنقود : {totalGoldAsMoney}</Text>
-            <Text style={styles.totalAsMoney}>الاجمالي كدهب 21 : {totalGoldAsMoney/goldBuy}</Text>
+            <Text style={styles.totalAsMoney}>الاجمالي كنقود : {totalGoldAsMoney} L.E</Text>
+            <Text style={styles.totalAsMoney}>الاجمالي كدهب 21 : {totalGoldAsMoney/goldBuy} gm</Text>
         </View>
-            <Button style={{marginTop:'1%'}} icon="expand-all" mode="contained-tonal" onPress={handleTotal} textColor={'black'}>
+            <Button icon="expand-all" mode="contained-tonal" onPress={handleTotal} textColor={'black'}>
                 احسب الاجمالي
             </Button>
-            <Button style={{marginTop:'1%'}} icon="content-save" mode="contained" onPress={handleSaveSafe} textColor={'white'}>
+            <Button icon="content-save" mode="contained" onPress={handleSaveSafe} textColor={'white'}>
                 حفظ بيانات الخزنة   
             </Button>
+            </ScrollView>
+
     </SafeAreaView>
 
   )
@@ -216,7 +220,7 @@ const styles = StyleSheet.create({
         padding:'2%'
       },
       totalAsMoney:{
-        fontSize:25,
+        fontSize:20,
         paddingHorizontal:'2%',
         paddingVertical:'1%',
         textAlign:'center'

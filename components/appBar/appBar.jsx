@@ -19,16 +19,21 @@ export default function AppBar() {
     const dayDate = new Date();
     let day = dayDate.getDate();
     let month = dayDate.getMonth() + 1;
-    let year = dayDate.getFullYear();
-    setDate({day , month , year})
-
+    let year = dayDate.getFullYear()
+    
   useEffect(() => {
     updateProperty('prices' , 'goldBuy' , goldBuy).then(()=>{
       updateProperty('prices' , 'goldSell' , goldSell)
     })
 
   }, [goldBuy ,goldSell])
-  
+  useEffect(()=>{
+    const dayDate = new Date();
+    let day = dayDate.getDate();
+    let month = dayDate.getMonth() + 1;
+    let year = dayDate.getFullYear();
+    setDate({day , month , year})
+  })
   return (
     <View style={styles.appBar}>
       <Link href={'/dashboard'}>

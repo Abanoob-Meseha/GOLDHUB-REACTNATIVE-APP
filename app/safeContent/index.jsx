@@ -44,6 +44,9 @@ const SafeContent = () => {
                             <Text style={styles.headline}>
                                 تحتوي علي نقود = {safe.totalMoney} L.E
                             </Text>
+                            <Text style={styles.headline}>
+                                تحتوي علي دهب 21 = {safe.totalGold21} gm
+                            </Text>
                             <IconButton
                                 icon="delete"
                                 iconColor={colors.error}

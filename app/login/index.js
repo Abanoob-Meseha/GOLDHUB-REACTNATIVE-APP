@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Alert } from 'react-native';
+import { StyleSheet, View, Text, Alert, ScrollView } from 'react-native';
 import { Modal, Portal, TextInput, Checkbox, Button, ActivityIndicator } from 'react-native-paper';
 import { useState } from 'react';
 import COLORS from '../../constants/colors';
@@ -57,7 +57,7 @@ export default function Index() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Toast/>
       <Text style={styles.title}> تسجيل الدخول </Text>
       <View style={styles.form}>
@@ -131,7 +131,7 @@ export default function Index() {
           <ActivityIndicator animating={true} color={colors.primary} />
         </Modal>
       </Portal>
-    </View>
+    </ScrollView>
   );
 }
  

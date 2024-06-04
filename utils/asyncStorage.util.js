@@ -113,7 +113,7 @@ export const updateProperty = async (key, property, value) => {
       console.error('Failed to update property', e);
     }
 };
-
+// --------------------------Adding to any Array
 export const pushToArray = async (key, newItem) => {
   try {
     // Step 1: Retrieve the array from AsyncStorage
@@ -139,7 +139,37 @@ export const pushToArray = async (key, newItem) => {
     console.error('Failed to add item to array', e);
   }
 };
-
+// --------------get proprety 
+export const getArrayPropValue = async (key, objectId ,prop) => {
+  try {
+    // Step 1: Retrieve the object from AsyncStorage
+    const jsonValue = await AsyncStorage.getItem(key);
+    if (jsonValue !== null) {
+      // Step 2: Parse the object from JSON
+      let array = JSON.parse(jsonValue);
+      let propertyValue = null
+      // Step 3: Filter the array to find the element(s) with the matching id
+      let object = array.find(item => item.id == objectId);
+      if(object !== null){
+        propertyValue = object[prop]
+      }
+      if (propertyValue !== undefined) {
+        console.log('Property value retrieved successfully:', propertyValue);
+        return propertyValue;
+      } else {
+        console.log('Property not found');
+        return null;
+      }
+    } else {
+      console.log('Object not found');
+      return null;
+    }
+  } catch (e) {
+    console.error('Failed to retrieve property value', e);
+    return null;
+  }
+};
+// ---------------Delete by id
 export const deleteElementById = async (key, idToDelete) => {
   try {
     // Step 1: Retrieve the array from AsyncStorage
@@ -165,6 +195,40 @@ export const deleteElementById = async (key, idToDelete) => {
     console.error('Failed to delete element', e);
   }
 };
+// update Array object proprety
+export const updateArrayObjectProp = async (key, objectId , prop , value) => {
+  try {
+    // Step 1: Retrieve the array from AsyncStorage
+    const jsonValue = await AsyncStorage.getItem(key);
+    if (jsonValue !== null) {
+      // Step 2: Parse the array from JSON
+      let array = JSON.parse(jsonValue);
+
+      // Step 3: Filter the array to find the element(s) with the matching id
+      let object = array.find(item => item.id == objectId);
+      if(object !== null){
+        object[prop] = value
+        array = array.filter(item => item.id !== objectId);
+        array.push(object)
+        // Step 4: Convert the updated array back to a JSON string
+        const updatedJsonValue = JSON.stringify(array);
+
+        // Step 5: Save the updated array back to AsyncStorage
+        await AsyncStorage.setItem(key, updatedJsonValue);
+
+        console.log('Array object prop Updated successfully');
+      }else{
+        console.log("object was not found in array")
+      }
+      
+    } else {
+      console.log('Array not found');
+    }
+  } catch (e) {
+    console.error('Failed to delete element', e);
+  }
+};
+
 
 // ------------------------------Client Functions
 export const saveClientOffline = async (client) => {
