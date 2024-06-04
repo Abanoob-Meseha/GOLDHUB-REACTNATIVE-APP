@@ -37,6 +37,14 @@
           "initialOrientation": "DEFAULT"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "637e626c-f42d-41a1-9fd9-9056092ea8db"
+      }
+    }
   }
 }
