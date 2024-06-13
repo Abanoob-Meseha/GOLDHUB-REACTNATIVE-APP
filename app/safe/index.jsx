@@ -9,10 +9,13 @@ import useStore from '../../zustand/useStore'
 import Navbar from "../../components/navbar/navbar"
 import { getSafesOffline, saveSafeOffline } from '../../utils/asyncStorage.util'
 
+
 export default index = () => {
     const [safeContent , setSafeContent] = useState([])
     const [selection , setSelection] = useState('')
     const [value , setValue] = useState(0)
+    const [fee , setFee] = useState(0)
+    const [totalFee , setTotalFee] = useState(0)
     const [operator , setOperator]= useState('')
     const [totalMoney , setTotalMoney] = useState(0)
     const [totalGoldAsMoney , setTotalGoldAsMoney] = useState(0)
@@ -24,7 +27,7 @@ export default index = () => {
     const safes = useStore((state)=>state.safes)
 
     const handleAdd = ()=>{
-        setSafeContent([...safeContent , {"measure":selection , "itemValue":value , "itemOperator":operator}])
+        setSafeContent([...safeContent , {"measure":selection , "itemValue":value , "itemOperator":operator , "itemFee":fee}])
     }
     const handleClear= ()=>{
         setSafeContent([])
@@ -32,13 +35,16 @@ export default index = () => {
     const handleTotal = ()=>{
         let total_Gold = 0
         let total_Money = totalMoney
+        let total_Fee = 0
         for (let index = 0; index < safeContent.length; index++) {
-            const {itemValue , itemOperator} = safeContent[index];
+            const {itemValue , itemOperator , itemFee} = safeContent[index];
             total_Gold=total_Gold + (itemValue * itemOperator)
+            total_Fee = total_Fee + (itemFee * itemValue)
         }
-        total_Money =total_Money + (total_Gold * goldBuy)
+        total_Money =total_Money + (total_Gold * goldBuy) + total_Fee
         setTotalGold(total_Gold)
         setTotalGoldAsMoney(total_Money) 
+        setTotalFee (total_Fee)
     }
     const handleSaveSafe = async ()=>{
         let safe = {
@@ -46,6 +52,7 @@ export default index = () => {
             "safeContent":safeContent,
             "totalMoney":totalMoney,
             "totalGold21":totalGold,
+            "totalFee":totalFee
         }
         await saveSafeOffline(safe)
         setSafes([...safes , safe])
@@ -67,9 +74,17 @@ export default index = () => {
                 <TextInput
                 keyboardType='phone-pad'
                 mode='outlined'
+                label="الاجره"
+                value={fee}
+                style={{width:'25%'}}
+                onChangeText={fee => setFee(fee==''?'':parseFloat(fee))}
+                />
+                <TextInput
+                keyboardType='phone-pad'
+                mode='outlined'
                 label="القيمة"
                 value={value}
-                style={{width:'30%'}}
+                style={{width:'25%'}}
                 onChangeText={value => setValue(value==''?'':parseFloat(value))}
                 />
                 <TextInput
@@ -104,9 +119,11 @@ export default index = () => {
                 safeContent.map((item , index)=>{
                     return(
                         <View style={styles.row}>
-                            <Text style={{width:'30%' , fontSize:20}}>{item.itemValue}</Text>
-                            <Text style={{width:'30%', fontSize:20}}>{item.itemOperator}</Text>
-                            <Text style={{width:'30%', fontSize:20}}>{item.measure}</Text>
+                            <Text style={{width:'25%' , fontSize:20}}>{item.itemFee}</Text>
+                            <Text style={{width:'25%', fontSize:20}}>{item.itemValue}</Text>
+                            <Text style={{width:'25%', fontSize:20}}>{item.itemOperator}</Text>
+                            <Text style={{width:'25%', fontSize:20}}>{item.measure}</Text>
+
                         </View>
                     )
                 })  
@@ -147,6 +164,7 @@ export default index = () => {
                 اجمالي الخزنة
             </Text>
             <View style={styles.totalContent}>
+                <Text style={{fontSize:16}}>اجره : {totalFee} L.E</Text>
                 <Text style={{fontSize:16}}>دهب 21 : {totalGold} gm</Text>
                 <Text style={{fontSize:16}}>نقدي : {totalMoney} L.E</Text>
             </View>
@@ -191,7 +209,7 @@ const styles = StyleSheet.create({
       dropdown:{
         verticalAlign:'center',
         height: 45,
-        width:'40%',
+        width:'25%',
         borderColor: colors.primary,
         borderWidth: 1,
         borderRadius:12,
