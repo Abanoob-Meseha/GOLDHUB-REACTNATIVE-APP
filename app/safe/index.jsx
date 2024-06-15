@@ -66,7 +66,7 @@ export default index = () => {
     <SafeAreaView style={styles.container}>
       <Navbar imgUrl='../../assets/images/AVATAR.png' brand={user? user.brand : 'GOLDHUB'} />
       <ScrollView contentContainerStyle={{flex:1,height:'80%'}}>
-      <View>
+      <View style={{height:"65%"}}>
             <Text style={styles.headline}>
                 اضف الذهب بعياراته المختلفة بالجرام
             </Text>
@@ -114,15 +114,15 @@ export default index = () => {
                 }}
                 />
             </View>
-            <ScrollView style={{width:'100%' , height:'26%'}}>
+            <ScrollView style={{width:'100%' , height:'20%'}}>
                 {
                 safeContent.map((item , index)=>{
                     return(
                         <View style={styles.row}>
-                            <Text style={{width:'25%' , fontSize:20}}>{item.itemFee}</Text>
-                            <Text style={{width:'25%', fontSize:20}}>{item.itemValue}</Text>
-                            <Text style={{width:'25%', fontSize:20}}>{item.itemOperator}</Text>
-                            <Text style={{width:'25%', fontSize:20}}>{item.measure}</Text>
+                            <Text style={{width:'25%' , fontSize:20 , textAlign:"center"}}>{item.itemFee}</Text>
+                            <Text style={{width:'25%', fontSize:20 , textAlign:"center"}}>{item.itemValue}</Text>
+                            <Text style={{width:'25%', fontSize:20 , textAlign:"center"}}>{item.itemOperator}</Text>
+                            <Text style={{width:'25%', fontSize:20 , textAlign:"center"}}>{item.measure}</Text>
 
                         </View>
                     )
@@ -169,14 +169,17 @@ export default index = () => {
                 <Text style={{fontSize:16}}>نقدي : {totalMoney} L.E</Text>
             </View>
             <Text style={styles.totalAsMoney}>الاجمالي كنقود : {totalGoldAsMoney} L.E</Text>
-            <Text style={styles.totalAsMoney}>الاجمالي كدهب 21 : {totalGoldAsMoney/goldBuy} gm</Text>
+            <Text style={styles.totalAsMoney}>الاجمالي كدهب 21 : {totalGoldAsMoney/goldBuy  ||0} gm</Text>
         </View>
+        <View style={{height:"10%"}}>
             <Button icon="expand-all" mode="contained-tonal" onPress={handleTotal} textColor={'black'}>
                 احسب الاجمالي
             </Button>
             <Button icon="content-save" mode="contained" onPress={handleSaveSafe} textColor={'white'}>
                 حفظ بيانات الخزنة   
             </Button>
+        </View>
+            
             </ScrollView>
 
     </SafeAreaView>
@@ -189,7 +192,7 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         alignContent:'center',
-        backgroundColor:'white'
+        backgroundColor:'white',
     }
     ,
     row:{
@@ -229,6 +232,7 @@ const styles = StyleSheet.create({
       },
       totalContainer:{
         backgroundColor:colors.primary,
+        height:"20%"
       },
       totalContent:{
         flexDirection:'row',
@@ -238,7 +242,8 @@ const styles = StyleSheet.create({
         padding:'2%'
       },
       totalAsMoney:{
-        fontSize:20,
+        fontSize:16,
+        fontWeight:"bold",
         paddingHorizontal:'2%',
         paddingVertical:'1%',
         textAlign:'center'

@@ -7,7 +7,7 @@ export const styles = {
         minHeight: 80,
         backgroundColor: 'transparent',
         paddingHorizontal: 20, 
-        paddingVertical: 20, 
+        // paddingVertical: 20, 
       },
       title: {
         color: "#E6AF2E",
@@ -21,7 +21,7 @@ export const styles = {
       card: {
         backgroundColor: "#fff",
         width: "40%",
-        aspectRatio: 1,
+        aspectRatio: 1.2,
         alignItems:"center",
         justifyContent:"center",
         shadowColor: "#000",
@@ -33,6 +33,8 @@ export const styles = {
         shadowOpacity: 0.43,
         shadowRadius: 9.51,
         elevation: 15,
+        marginVertical: 3,
+        // padding:5
       },
       cardTitle:{
         fontSize: 18,

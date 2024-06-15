@@ -40,5 +40,8 @@ export const styles = StyleSheet.create({
         alignItems:'center',
         width:'40%',
         justifyContent:'space-between'
+      },
+      actionIcon:{
+        width:"15%"
       }
 })

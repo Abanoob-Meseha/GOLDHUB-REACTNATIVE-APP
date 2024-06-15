@@ -74,7 +74,7 @@ const SafeContent = () => {
                                         )) :
                                         (Array.isArray(safe.safeContent) ? safe.safeContent.map((item, idx) => (
                                             <View key={idx} style={styles.row}>
-                                                <Text style={{ width: '25%', fontSize: 20, textAlign: "center" }}>{`الاجره/جم ${item.itemFee || 0}`}</Text>
+                                                <Text style={{ width: '25%', fontSize: 20, textAlign: "center" }}>{`جـ/جم ${item.itemFee || 0}`}</Text>
                                                 <Text style={{ width: '25%', fontSize: 20, textAlign: "center" }}>{`${item.itemValue} جم`}</Text>
                                                 <Text style={{ width: '25%', fontSize: 20, textAlign: "center" }}>{item.itemOperator}</Text>
                                                 <Text style={{ width: '25%', fontSize: 20 }}>{item.measure}</Text>
