@@ -32,10 +32,10 @@ const renderItem = ({ item  , index}) => (
       onPress={()=>handleDeleteClient(item.id)}
     />
     <Text style={styles.cardTitle}>
-      {item.initialGold}
+      {item.initialGold || 0}
     </Text>
     <Text style={styles.cardTitle}>
-      {item.initialMoney}
+      {item.initialMoney || 0}
     </Text>
     <Text style={styles.cardTitle}>
       {item.phone}
@@ -153,7 +153,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     paddingHorizontal: 15,
-    color:'black'
+    color:'black',
+    textAlign:"center",
   },
   sellPrice: {
     fontSize: 18,

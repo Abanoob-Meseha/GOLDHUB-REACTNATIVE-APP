@@ -6,6 +6,7 @@ import Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Searchbar } from 'react-native-paper';
 import { StyleSheet, View ,Text, FlatList, ScrollView } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import { deleteElementById } from '../../utils/asyncStorage.util'
 
 export default AllMoves = () => {
   const [searchQuery, setSearchQuery] = useState('');

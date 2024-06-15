@@ -81,7 +81,26 @@ export default function Transactions() {
       await updateArrayObjectProp("safes", item.safe, "totalGold21", Total_Gold);
     }
   };
+  const handleClient = async (transactions)=>{
+    for (const [index, item] of transactions.entries()) {
+      let clientAccountCash = await getArrayPropValue("clients" , move_clientId , "initialMoney")
+      if (item.move === "منصرف") {
+      var totalC= parseFloat(clientAccountCash) + parseFloat(item.totalCash)
+      }else{
+      var totalC= parseFloat(clientAccountCash) - parseFloat(item.totalCash)
+      }
+      await updateArrayObjectProp("clients" , move_clientId ,"initialMoney" , totalC)
   
+      let clientAccountgold = await getArrayPropValue("clients" , move_clientId , "initialGold")
+      addedGold = parseFloat(item.transactionValue) * parseFloat(item.operator)
+      if (item.move === "منصرف") {
+      var totalG= parseFloat(clientAccountgold) + parseFloat(addedGold)
+      }else{
+      var totalG= parseFloat(clientAccountgold) - parseFloat(addedGold)
+      }
+      await updateArrayObjectProp("clients" , move_clientId ,"initialGold" , totalG)
+    }
+  }
   const handleSaveDeal = async () => {
     if (!currentClient) {
       console.log('Client not found');
@@ -97,12 +116,8 @@ export default function Transactions() {
     setDeals([...deals , deal])
     await saveDealOffline(deal)
     // effect on Client Account
-    let clientAccountCash = await getArrayPropValue("clients" , move_clientId , "initialMoney")
-    let clientAccountgold = await getArrayPropValue("clients",move_clientId , "initialGold")
-    let totalG= parseFloat(clientAccountgold) - totalGold21
-    let totalC= parseFloat(clientAccountCash) - totalMoney
-    await updateArrayObjectProp("clients" , move_clientId ,"initialMoney" , totalC)
-    await updateArrayObjectProp("clients" , move_clientId ,"initialGold" , totalG)
+    handleClient(transactions)
+  
     // effect on Safe
     handleSafe(transactions);
     setTransactions([])
