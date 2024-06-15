@@ -223,10 +223,10 @@ const handleTransactionSave = () => {
           onChangeText={totalCash => setTotalCash(totalCash)}
         />
         <Text style={{backgroundColor:colors.primary ,borderRadius:12 , padding:'1%'}}>
-          الاجمالي كدهب 21 : gm {(parseFloat(totalCash) + parseFloat(gramTotalValue))/goldBuy + (transactionValue*operator)}
+          الاجمالي كدهب 21 : gm {((parseFloat(totalCash) + parseFloat(gramTotalValue))/goldBuy + (transactionValue*operator)).toFixed(3)}
         </Text>
         <Text style={{backgroundColor:colors.primary ,borderRadius:12 , padding:'1%'}}>
-          الاجمالي كنقود  : L.E {parseFloat(totalCash) + parseFloat(gramTotalValue) + (transactionValue*operator*goldBuy)}
+          الاجمالي كنقود  : L.E {(parseFloat(totalCash) + parseFloat(gramTotalValue) + (transactionValue*operator*goldBuy)).toFixed(3)}
         </Text>
         <IconButton
           mode="contained"
