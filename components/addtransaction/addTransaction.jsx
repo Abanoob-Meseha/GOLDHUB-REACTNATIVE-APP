@@ -62,6 +62,15 @@ const handleTransactionSave = () => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
+        <View style={[{width:"10%"}, styles.field]}>
+          <IconButton
+            mode="contained"
+            icon="plus"
+            iconColor={colors.primary}
+            size={30}
+            onPress={handleTransactionSave}
+          />
+          </View>
         <View style={[{width:"20%"}, styles.field]}>
           <Dropdown
           labelField="label"
@@ -76,7 +85,7 @@ const handleTransactionSave = () => {
           placeholder={'الخزنه - كود الخزنه'}
           />
         </View>
-        <View style={[{width:"40%"}, styles.field]}>
+        <View style={[{width:"30%"}, styles.field]}>
           <Dropdown
           search
           searchPlaceholder= "ابحث بالاسم"
@@ -219,22 +228,16 @@ const handleTransactionSave = () => {
           label="النقدية"
           value={totalCash}
           textColor={colors.primary}
-          style={{width : '30%' }}
+          style={{width : '20%' }}
           onChangeText={totalCash => setTotalCash(totalCash)}
         />
         <Text style={{backgroundColor:colors.primary ,borderRadius:12 , padding:'1%'}}>
-          الاجمالي كدهب 21 : gm {((parseFloat(totalCash) + parseFloat(gramTotalValue))/goldBuy + (transactionValue*operator)).toFixed(3)}
+          الاجمالي كدهب 21 : gm {((parseFloat(totalCash) + parseFloat(gramTotalValue))/goldBuy + (transactionValue*operator)).toFixed(1)}
         </Text>
         <Text style={{backgroundColor:colors.primary ,borderRadius:12 , padding:'1%'}}>
-          الاجمالي كنقود  : L.E {(parseFloat(totalCash) + parseFloat(gramTotalValue) + (transactionValue*operator*goldBuy)).toFixed(3)}
+          الاجمالي كنقود  : L.E {(parseFloat(totalCash) + parseFloat(gramTotalValue) + (transactionValue*operator*goldBuy)).toFixed(1)}
         </Text>
-        <IconButton
-          mode="contained"
-          icon="plus"
-          iconColor={colors.primary}
-          size={40}
-          onPress={handleTransactionSave}
-        />
+        
       </View>
       <View>
       </View>
