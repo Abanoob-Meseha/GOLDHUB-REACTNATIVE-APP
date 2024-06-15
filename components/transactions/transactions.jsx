@@ -12,8 +12,8 @@ export default function Transactions() {
   const setTransactions = useStore((state)=>state.setTransactions)
   const transactions = useStore((state)=>state.transactions)
   const [currentClient , setCurrentClient] = useState(null)
-  const [totalGold21 , setTotalGold21] = useState()
-  const [totalMoney , setTotalMoney] = useState()
+  const [totalGold21 , setTotalGold21] = useState(0)
+  const [totalMoney , setTotalMoney] = useState(0)
   const date = useStore((state)=>state.date)
   const clients = useStore((state)=>state.clients);
   const setClients = useStore((state)=>state.setClients)
@@ -27,10 +27,62 @@ export default function Transactions() {
   let month = dayDate.getMonth() + 1;
   let year = dayDate.getFullYear();
 
-  const handleDeleteTransaction = async (transId)=>{
-    setTransactions(transactions.filter((trans)=>trans.id !== transId))
-  }
-  const handleSaveDeal = async ()=>{
+  const handleDeleteTransaction = async (transId) => {
+    setTransactions(transactions.filter((trans) => trans.id !== transId));
+  };
+  const handleSafe = async (transactions) => {
+    for (const [index, item] of transactions.entries()) {
+      let newSafeContent = {};
+      if (item.move === "منصرف") {
+        newSafeContent = {
+          measure: item.moveType,
+          itemValue: item.transactionValue * -1,
+          itemOperator: item.operator,
+          itemFee: Number(item.gramTotalValue * -1 / item.transactionValue)
+        };
+      } else {
+        newSafeContent = {
+          measure: item.moveType,
+          itemValue: parseFloat(item.transactionValue),
+          itemOperator: item.operator,
+          itemFee: item.gramTotalValue / item.transactionValue
+        };
+      }
+  
+      const safeContent = await getArrayPropValue("safes", item.safe, "safeContent");
+      let Safe_Content = [...safeContent, newSafeContent];
+      await updateArrayObjectProp("safes", item.safe, "safeContent", Safe_Content);
+  
+      const totalMoney = await getArrayPropValue("safes", item.safe, "totalMoney");
+      let tM = parseFloat(item.totalCash);
+      if (item.move === "منصرف") {
+      var Total_Money = totalMoney - tM;
+      }else{
+      var Total_Money = totalMoney + tM;
+      }
+      await updateArrayObjectProp("safes", item.safe, "totalMoney", Total_Money);
+  
+      const totalFee = await getArrayPropValue("safes", item.safe, "totalFee");
+      let TF = newSafeContent.itemFee * newSafeContent.itemValue;
+      if (item.move === "منصرف") {
+        var Total_Fee = totalFee - TF;
+        }else{
+        var Total_Fee = totalFee + TF;
+        }
+      await updateArrayObjectProp("safes", item.safe, "totalFee", Total_Fee);
+  
+      const totalGold21 = await getArrayPropValue("safes", item.safe, "totalGold21");
+      let TG = item.operator * item.transactionValue;
+      if (item.move === "منصرف") {
+        var Total_Gold = totalGold21 - parseFloat(TG);
+        }else{
+        var Total_Gold = totalGold21 + parseFloat(TG);
+        }
+      await updateArrayObjectProp("safes", item.safe, "totalGold21", Total_Gold);
+    }
+  };
+  
+  const handleSaveDeal = async () => {
     if (!currentClient) {
       console.log('Client not found');
       return;
@@ -52,12 +104,7 @@ export default function Transactions() {
     await updateArrayObjectProp("clients" , move_clientId ,"initialMoney" , totalC)
     await updateArrayObjectProp("clients" , move_clientId ,"initialGold" , totalG)
     // effect on Safe
-    let safeCash = await getArrayPropValue("safes" ,'Safe1' , "totalMoney")
-    let safegold = await getArrayPropValue("safes" , 'Safe1',"totalGold21")
-    let totalSafeG= parseFloat(safegold) + totalGold21
-    let totalSafeC= parseFloat(safeCash) + totalMoney
-    await updateArrayObjectProp("safes" , 'Safe1' ,"totalMoney" , totalSafeC)
-    await updateArrayObjectProp("safes" , 'Safe1',"totalGold21" , totalSafeG)
+    handleSafe(transactions);
     setTransactions([])
     getClientsOffline().then((clientsArray)=>{
       setClients(clientsArray)
@@ -68,8 +115,8 @@ export default function Transactions() {
     let total_gold21 = 0;
     for (let index = 0; index < transactions.length; index++) {
       const element = transactions[index];
-      total_Money = total_Money + parseFloat(element.totalCash) + parseFloat(element.gramTotalValue)
-      total_gold21 = total_gold21 + (element.transactionValue * element.operator)
+      total_Money += parseFloat(element.totalCash) + parseFloat(element.gramTotalValue);
+      total_gold21 += element.transactionValue * element.operator;
     }
     setTotalGold21(total_gold21);
     setTotalMoney(total_Money)
@@ -84,37 +131,37 @@ export default function Transactions() {
   }, [move_clientId, clients]);
 
   const renderItem = ({ item }) => {
-      return (
-        <View style={styles.card}>
-          <IconButton
-            icon="delete"
-            iconColor={colors.error}
-            size={30}
-            onPress={()=>handleDeleteTransaction(item.id)}
-          />
-          <Text style={styles.cardTitle}>{parseFloat(item.totalCash) + parseFloat(item.gramTotalValue)}</Text>
-          <Text style={styles.cardTitle}>{item.transactionValue * item.operator}</Text>
-          <Text style={styles.cardTitle}>{item.transactionValue}</Text>
-          <Text style={styles.cardTitle}>{item.moveType}</Text>
-          <Text style={styles.cardTitle}>{item.move}</Text>
-          <Text style={styles.cardTitle}>{item.transactionNumber}</Text>
-        </View>
-      );
+    return (
+      <View style={styles.card}>
+        <IconButton
+          icon="delete"
+          iconColor={colors.error}
+          size={30}
+          onPress={()=>handleDeleteTransaction(item.id)}
+        />
+        <Text style={styles.cardTitle}>{parseFloat(item.totalCash) + parseFloat(item.gramTotalValue)}</Text>
+        <Text style={styles.cardTitle}>{item.transactionValue * item.operator}</Text>
+        <Text style={styles.cardTitle}>{item.transactionValue}</Text>
+        <Text style={styles.cardTitle}>{item.moveType}</Text>
+        <Text style={styles.cardTitle}>{item.move}</Text>
+        <Text style={styles.cardTitle}>{item.transactionNumber}</Text>
+      </View>
+    );
   }
-  
+
   return (
     <View style={styles.container}>
-        <View style={styles.transactionsTitle}>
-          <Text style={styles.txt}>
-            كود العميل  :{move_clientId}
-          </Text>
-          <Text style={styles.txt}>
-            اسم العميل  : {currentClient?currentClient.name:''}
-          </Text>
-          <Text style={styles.txt}>
-            رقم الحركة  :{deals.length + 1}
-          </Text>
-        </View>
+      <View style={styles.transactionsTitle}>
+        <Text style={styles.txt}>
+          كود العميل  :{move_clientId}
+        </Text>
+        <Text style={styles.txt}>
+          اسم العميل  : {currentClient?currentClient.name:''}
+        </Text>
+        <Text style={styles.txt}>
+          رقم الحركة  :{deals.length + 1}
+        </Text>
+      </View>
       <View style={styles.transactionsTitle}>
         <Icon name='delete' size={30} color={colors.secondary}/>
         <Text style={styles.txt}>النقدية</Text>

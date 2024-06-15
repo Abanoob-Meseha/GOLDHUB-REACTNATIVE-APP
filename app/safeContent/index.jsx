@@ -8,31 +8,37 @@ import { Button, IconButton } from 'react-native-paper'
 import {measures} from '../../data/basicData.json'
 
 const SafeContent = () => {
-    const [safeType , setSafeType] = useState("الوهميه")
-    const setSafes = useStore((state)=>state.setSafes)
-    const safes = useStore((state)=>state.safes)
-    const handleDeleteSafe = async (id) =>{
-        await deleteElementById("safes" , id)
-        setSafes(safes.filter((safe)=>safe.id !== id))
-        console.log("Safe Deleted Successfully")
-    }
-    useEffect(()=>{
-        getSafesOffline().then((safesArray)=>{
-            setSafes(safesArray)
-        })
-    },[])
-    changeSafeType = () =>{
-        if (safeType == "الوهميه") {
-            setSafeType("الاصليه")
-        }else{
-            setSafeType("الوهميه")
-        }
-    }
+    const [safeType, setSafeType] = useState("الوهميه");
+    const setSafes = useStore((state) => state.setSafes);
+    const safes = useStore((state) => state.safes);
+
+    const handleDeleteSafe = async (id) => {
+        await deleteElementById("safes", id);
+        setSafes(safes.filter((safe) => safe.id !== id));
+        console.log("Safe Deleted Successfully");
+    };
+
+    useEffect(() => {
+        getSafesOffline().then((safesArray) => {
+            setSafes(safesArray);
+        });
+    }, []);
+
+    const changeSafeType = () => {
+        setSafeType(prevType => (prevType === "الوهميه" ? "الاصليه" : "الوهميه"));
+    };
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView style={{ flex: 1 }}>
-                <Button style={styles.BTN} labelStyle={{fontSize:16}} textColor={colors.secondary}  mode="elevated" onPress={() => changeSafeType()}>
-                اظهر الخزنه {safeType}
+                <Button
+                    style={styles.BTN}
+                    labelStyle={{ fontSize: 16 }}
+                    textColor={colors.secondary}
+                    mode="elevated"
+                    onPress={changeSafeType}
+                >
+                    اظهر الخزنه {safeType}
                 </Button>
                 {[...safes].map((safe, index) => {
                     let measuresWeight = {
@@ -45,10 +51,11 @@ const SafeContent = () => {
                         "سبائك - عيارات مختلفة": 0
                     };
 
-                    safe.safeContent.forEach((item) => {
-                        measuresWeight[item.measure] += item.itemValue;
-                    });
-
+                    if (Array.isArray(safe.safeContent)) {
+                        safe.safeContent.forEach((item) => {
+                            measuresWeight[item.measure] += item.itemValue;
+                        });
+                    }
                     return (
                         <View key={index} style={{ marginBottom: 20 }}>
                             <Text style={styles.headline}>
@@ -57,36 +64,33 @@ const SafeContent = () => {
                             
                             <View style={{ height: 200 }}>
                                 <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={true} nestedScrollEnabled={true}>
-                                    {safeType == "الوهميه" ?
-                                    measures.map((item, idx) => {
-                                        return (
+                                    {safeType === "الوهميه" ?
+                                        measures.map((item, idx) => (
                                             <View key={idx} style={styles.row}>
                                                 <Text style={{ width: '30%', fontSize: 20, textAlign: "center" }}>{`${measuresWeight[item["label"]]} جم`}</Text>
                                                 <Text style={{ width: '30%', fontSize: 20, textAlign: "center" }}>{item["operator"]}</Text>
                                                 <Text style={{ width: '30%', fontSize: 20, textAlign: "right" }}>{item["label"]}</Text>
                                             </View>
-                                        );
-                                    }) : safe.safeContent.map((item , index)=>{
-                                        return(
-                                            <View style={styles.row}>
-                                                <Text style={{width:'25%' , fontSize:20, textAlign: "center" }}>{`الاجره/جم ${item.itemValue}`}</Text>
-                                                <Text style={{width:'25%' , fontSize:20, textAlign: "center" }}>{`${item.itemValue} جم`}</Text>
-                                                <Text style={{width:'25%', fontSize:20, textAlign: "center" }}>{item.itemOperator}</Text>
-                                                <Text style={{width:'25%', fontSize:20}}>{item.measure}</Text>
+                                        )) :
+                                        (Array.isArray(safe.safeContent) ? safe.safeContent.map((item, idx) => (
+                                            <View key={idx} style={styles.row}>
+                                                <Text style={{ width: '25%', fontSize: 20, textAlign: "center" }}>{`الاجره/جم ${item.itemFee || 0}`}</Text>
+                                                <Text style={{ width: '25%', fontSize: 20, textAlign: "center" }}>{`${item.itemValue} جم`}</Text>
+                                                <Text style={{ width: '25%', fontSize: 20, textAlign: "center" }}>{item.itemOperator}</Text>
+                                                <Text style={{ width: '25%', fontSize: 20 }}>{item.measure}</Text>
                                             </View>
-                                        )
-                                    })
+                                        )) : null)
                                     }
                                 </ScrollView>
                             </View>
-                            { safeType == "الوهميه" ?  
+                            {safeType === "الوهميه" ?  
                                 <Text style={styles.headline}>
-                                تحتوي علي نقود = {safe.totalMoney} L.E
+                                    تحتوي علي نقود = {safe.totalMoney} L.E
                                 </Text>
                              : 
-                             <Text style={styles.headline}>
-                             تحتوي علي نقود وأجر = {safe.totalMoney + safe.totalFee} L.E
-                             </Text>
+                                <Text style={styles.headline}>
+                                    تحتوي علي نقود وأجر = {safe.totalMoney + safe.totalFee} L.E
+                                </Text>
                             }
                             
                             <Text style={styles.headline}>
@@ -106,37 +110,33 @@ const SafeContent = () => {
     );
 }
 
-export default SafeContent
+export default SafeContent;
 
 const styles = StyleSheet.create({
-    row:{
-        width:'100%',
-        flexDirection:'row',
-        display:'flex',
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-around',
-        marginBottom:'1%',
-        paddingVertical:'2%',
-        paddingHorizontal:'1%',
-        backgroundColor:colors.secondary,
-        borderRadius:12,
-
-      },
-      headline:{
-        fontSize:20,
-        textAlign:'center',
-        color:'white',
-        backgroundColor:colors.primary,
-        paddingVertical:'1%'
-      },
-      BTN: {
-        width:'100%',
-        // height:70,
-        // marginTop:'5%',
+    row: {
+        width: '100%',
+        flexDirection: 'row',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        marginBottom: '1%',
+        paddingVertical: '2%',
+        paddingHorizontal: '1%',
+        backgroundColor: colors.secondary,
+        borderRadius: 12,
+    },
+    headline: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: 'white',
+        backgroundColor: colors.primary,
+        paddingVertical: '1%',
+    },
+    BTN: {
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 0,
-        fontSize: 12
-      }
-})
+        fontSize: 12,
+    },
+});
